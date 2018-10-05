@@ -131,7 +131,8 @@ export default {
     let password =  getCookie('password')
     console.log(username+password)
     if(username == null || password == null) {
-      this.$router.push({path:'/myehrpath/login',query:{pageTitle:'登录'}})
+      this.gotoMyehrPath('/myehrpath/login',null,'登录');
+     // this.$router.push({path:'/myehrpath/login',query:{pageTitle:'登录'}})
     }else {
       this.$axios.get('/myehr/login/IMlogin.action?UserCode='+username+'&PassWord='+password,{
         headers: {
@@ -146,7 +147,8 @@ export default {
           this.loadundoCount();
           this.loaddoneCount();
         }else {
-           this.$router.push({path:'/myehrpath/login',query:{pageTitle:'重新登录'}})
+          this.gotoMyehrPath('/myehrpath/login',null,'重新登录');
+           //this.$router.push({path:'/myehrpath/login',query:{pageTitle:'重新登录'}})
         }
         console.log(response);
     }.bind(this))
@@ -169,6 +171,12 @@ export default {
   },
   methods:{
     testlist(){
+
+      var vl = [{
+        path: '/myehrpath/testList1Config',
+          component: () => import('../myehrpath/testList1Config.vue').then(m => m.default)
+      }]
+      this.$router.addRoutes(vl);
       this.$router.push('/myehrpath/testList1Config')
     },
     gotoSwiperDetail(item){
@@ -189,16 +197,20 @@ export default {
       this.$router.push('/component/myehrcard')
     },
     gologin(){
-      this.$router.push({path:'/myehrpath/login',query:{pageTitle:'重新登录'}})
+      this.gotoMyehrPath('/myehrpath/login',null,'重新登录');
+     // this.$router.push({path:'/myehrpath/login',query:{pageTitle:'重新登录'}})
     },gologinout(){
       delCookie('username')
       delCookie('password')
-      this.$router.push({path:'/myehrpath/login',query:{pageTitle:'登录'}})
+      this.gotoMyehrPath('/myehrpath/login',null,'登录');
+     //this.$router.push({path:'/myehrpath/login',query:{pageTitle:'登录'}})
     },
     gomyehrlist1(){
-      this.$router.push({path:'/myehrpath/testList1Component',query:{pageTitle:'我的待办'}})
+      this.gotoMyehrPath('/myehrpath/testList1Component',null,'我的待办');
+     // this.$router.push({path:'/myehrpath/testList1Component',query:{pageTitle:'我的待办'}})
     },gomyehrlist2(){
-      this.$router.push({path:'/myehrpath/testList2Component',query:{pageTitle:'我的已办'}})
+      this.gotoMyehrPath('/myehrpath/testList2Component',null,'我的已办');
+     // this.$router.push({path:'/myehrpath/testList2Component',query:{pageTitle:'我的已办'}})
     },
     gomyehrflowstart(){
       this.$router.push('/myehrpath/flowstart')

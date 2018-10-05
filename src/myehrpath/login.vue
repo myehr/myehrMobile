@@ -19,9 +19,8 @@
 
 <script>
    import { XInput, Group,XButton} from 'vux'
-   import  { getCookie,setCookie } from 'src/libs/cookieUtil.js'
-   import { b64_md5 } from 'src/libs/security.js'
-   import qs from 'qs';
+   import  { getCookie,setCookie } from '../libs/cookieUtil.js'
+   import { b64_md5 } from '../libs/security.js'
     export default {
         name: "login",
         components: {

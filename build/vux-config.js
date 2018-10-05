@@ -182,7 +182,7 @@ export default {
         let temp = [];
 
 
-        strall = fileDisplay('./src/myehrpath',strall);
+       // strall = fileDisplay('./src/myehrpath',strall);
 
 
 

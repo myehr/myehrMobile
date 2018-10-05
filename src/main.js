@@ -1,6 +1,6 @@
 import objectAssign from 'object-assign'
 
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.min'
 
 import App from './App'
 
@@ -29,6 +29,39 @@ Vue.config.productionTip = false
 
 axios.defaults.withCredentials=true
 Vue.prototype.$axios = axios
+let DEV_MODE = true;
+Vue.prototype.registComponents = function (path){
+  var filePath =path.replace("/myehrpath","");
+  var name  = path.split("/").join('')
+  Vue.component(name,    require(`@/myehrpath${filePath}.vue`));
+}
+Vue.prototype.registPath= function (path){
+  if(DEV_MODE == true) {
+    var filePath =path.replace("/myehrpath","");
+    var vl = [{
+      path: path,
+      component: () => import(`@/myehrpath${filePath}`).then(m => m.default)
+    }]
+    this.$router.addRoutes(vl);
+  }
+}
+//添加全局注册动态路由方法
+Vue.prototype.gotoMyehrPath = function (path,param,title) {
+  this.registPath(path);
+  if(title){
+    if(param) {
+      param['pageTitle'] = title;
+    }else {
+      param = {pageTitle:title};
+    }
+  }
+  if(param){
+    this.$router.push({path:path,query:param})
+  }else {
+    this.$router.push(path)
+  }
+
+}
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -163,8 +196,6 @@ const routes = []
 /*const routes =[
   //{path:'/myehrbuttontab',component:myehrbuttontab},
 ]*/
-
-
 const router = new VueRouter({
   mode: 'history',
   base: '/myehr',

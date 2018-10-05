@@ -1,9 +1,7 @@
 [
   "myehrlogin",
-  "ehrhome",
   "myehrservice#/name",
   "myehrcard",
-  "myehrtab",
   "hrmenus",
   "Cell",
   "OnePx#/css/1px",
@@ -18,7 +16,6 @@
   "Badge",
   "ButtonTab",
   "myehrbuttontab",
-  "myehrtab",
   "Checker",
   "XCircle",
   "Radio",

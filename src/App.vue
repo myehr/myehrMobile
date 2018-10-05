@@ -66,7 +66,7 @@
         <span class="icon iconfont icon-shouye1 hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">首页</span>
       </tabbar-item>
-      <tabbar-item >
+      <tabbar-item link="/myehrpath/work/worktab">
         <span class="icon iconfont icon-gongzuo1 hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">工作台</span>
       </tabbar-item>
@@ -133,6 +133,8 @@ export default {
     ...mapActions([
       'updateDemoPosition'
     ])
+  },created(){
+    this.registPath('/myehrpath/work/worktab');
   },
   updated() {
     let that = this
@@ -234,7 +236,9 @@ export default {
       return /tabbar/.test(this.route.path)
     },
     title () {
-      if (this.route.path === '/') return '流程审批首页'
+
+      if (this.route.path === '/myehrpath/work/worktab') return '我的工作台'
+      if (this.route.path === '/') return '首页'
       if (this.route.path === '/project/donate') return 'Donate'
       if (this.route.path === '/demo') return 'Demo list'
       if (this.route.path === '/component/myehrservice') return '我的服务'
