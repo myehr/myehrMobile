@@ -20,24 +20,33 @@
           <group :title="temp.lableName" v-model="filterColumnValueData_temp[index].value"  v-if="temp.type === 'textbox'">
             <x-input name="email" placeholder="请输入姓名" ></x-input>
           </group>
-          <group :title="temp.lableName"   v-if="temp.type === 'date'">
+          <group :title="temp.lableName"   v-if="temp.type === 'daterange'">
             <date-rang  v-model="filterColumnValueData_temp[index].value"  start_date="2018-01-01" end_date="2019-01-04"></date-rang>
           </group>
+
+          <group :title="temp.lableName"   v-if="temp.type === 'datetime'">
+            <datetime  v-model="filterColumnValueData_temp[index].value"  :format="getFormat(temp)" v-bind:hour-list="defaultHourList" :minute-list="getMinuteList(temp)"  title="选择"></datetime>
+          </group>
         </div>
-        <div>点击</div>
-
-
       </div>
     </div>
 </template>
 <!-- 动态查询表单生成 -->
 
+<i18n>
+  Choose:
+  zh-CN: 选择
+  daterange-format:
+  en: 'YYYY/MM/DD'
+  zh-CN: 'YYYY年MM月DD日'
+</i18n>
+
 <script>
   import CheckerItem from '../checker/checker-item.vue'
   import Checker from '../checker/checker.vue'
   import XInput from '../x-input'
-  import  Datetime from '../Datetime'
   import DateRang from "./dateRang";
+  import Datetime from  '@/components/datetime'
     export default {
         name: "formCreateQuery",
         components: {
@@ -55,6 +64,9 @@
           }
       },
         methods :{
+          onChange (val) {
+            console.log('change', val)
+          },
           getDictList(){
 
             return [{id:'1',name:'张三'},{id:'2',name:'李四'},{id:'3',name:'张三3'},{id:'4',name:'李四4'},{id:'5',name:'张三5'},{id:'6',name:'李四6'},{id:'7',name:'李四6'},{id:'8',name:'李四6'}];
@@ -67,6 +79,12 @@
               this.filterColumnValueData[propertyName] = this.filterColumnValueData_temp[i].value;
             }
             return this.filterColumnValueData;
+          },getHourList(temp){
+            return  !temp.hourList?this.defaultHourList:temp.hourList
+          },getMinuteList(temp){
+            return  !temp.minuteList?this.defaultMinuteList:temp.minuteList
+          },getFormat(temp){
+            return !temp.format? 'YYYY-MM-DD':temp.format
           }
         }
         ,props:{
@@ -80,7 +98,9 @@
       data () {
         return {
           filterColumnValueData_temp:[],
-          filterColumnValueData:{}
+          filterColumnValueData:{},
+          defaultHourList: ['09', '10', '11', '12', '13', '14', '15', '16', '17','18', '19', '20', '21', '22', '23', '00', '01', '02', '03','04','05','06','06','08'],
+          defaultMinuteList:['00', '15', '30', '45']
         }
       }
     }

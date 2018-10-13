@@ -32,13 +32,21 @@
             </span>
           </x-header>
 
-          <!-- remember to import BusPlugin in main.js if you use components: x-img and sticky -->
-          <transition
-          @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
-          :name="viewTransition" :css="!!direction">
-            <router-view    class="router-view"></router-view>
-          </transition>
 
+
+
+          <!-- remember to import BusPlugin in main.js if you use components: x-img and sticky -->
+         <!-- <transition
+          @after-enter="$vux.bus && $vux.bus.$emit('vux:after-view-enter')"
+          :name="viewTransition" :css="!!direction">-->
+            <div>
+              <keep-alive    >
+                <router-view class="router-view" v-if="this.$route.meta.keepAlive" ></router-view>
+              </keep-alive>
+              <router-view class="router-view2" v-if="!this.$route.meta.keepAlive"></router-view>
+            </div>
+       <!--   </transition>
+-->
 
 
    <!--      <tabbar class="vux-demo-tabbar" icon-class="vux-center" v-show="false" slot="bottom">
@@ -66,7 +74,7 @@
         <span class="icon iconfont icon-shouye1 hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">首页</span>
       </tabbar-item>
-      <tabbar-item link="/myehrpath/work/worktab">
+      <tabbar-item link="/myehrpath/work/worktab" title="工作台" :keepAlive="true">
         <span class="icon iconfont icon-gongzuo1 hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">工作台</span>
       </tabbar-item>
@@ -85,6 +93,7 @@
 <script>
 import { Scroller,Radio, Group, Cell, Badge, Drawer, Actionsheet, ButtonTab, ButtonTabItem, ViewBox, XHeader, Tabbar, TabbarItem, Loading, TransferDom } from 'vux'
 import { mapState, mapActions } from 'vuex'
+import VueRouter from 'vue-router'
 /*import BScroll from 'better-scroll'*/
 
 
@@ -106,7 +115,8 @@ export default {
     TabbarItem,
     Loading,
     Actionsheet,
-    Scroller
+    Scroller,
+    VueRouter
   },
   methods: {
     onShowModeChange (val) {
@@ -125,7 +135,15 @@ export default {
     },
     onClickMore () {
       this.showMenu = true
-    },
+    },getActivity(){
+      if(this.$route.query){
+        if(this.$route.query.keepAlive == true){
+          console.log('truetruetruetruetruetruetrue');
+          return true;
+        }
+      }
+    return false;
+  },
     changeLocale (locale) {
       this.$i18n.set(locale)
       this.$locale.set(locale)
@@ -133,20 +151,6 @@ export default {
     ...mapActions([
       'updateDemoPosition'
     ])
-  },created(){
-    this.registPath('/myehrpath/work/worktab');
-  },
-  updated() {
-    let that = this
-    /*setTimeout(function(){
-      // setTimeout(function(){
-      let wrapper = that.$refs.wrapper
-      new BScroll(wrapper,{
-
-        click: true
-
-      });
-    },1000)*/
   },
   mounted () {
     this.handler = () => {
@@ -155,7 +159,7 @@ export default {
         this.updateDemoPosition(this.box.scrollTop)
       }
     }
-
+    this.registPath('/myehrpath/work/worktab',true);
     // 获取浏览器可视区域高度
     this.clientHeight =   `${document.documentElement.clientHeight}`          //document.body.clientWidth;
     //console.log(self.clientHeight);
@@ -171,6 +175,25 @@ export default {
   },
   watch: {
     path (path) {
+
+      if(this.$route.query){
+        if(this.$route.query.keepAlive == true){
+          this.keepAlive = true
+        }else {
+          this.keepAlive = false
+        }
+      }else {
+        this.keepAlive = false
+      }
+
+      if(path == '/') {
+        this.keepAlive = false;
+      }else {
+        this.keepAlive = true;
+      }
+
+
+      console.log('路径修改'+'*******'+path+this.keepAlive)
       if (path === '/component/demo') {
         this.$router.replace('/demo')
         return
@@ -187,6 +210,20 @@ export default {
         this.box && this.box.removeEventListener('scroll', this.handler, false)
       }
     }
+  }, beforeRouteLeave(to,from ,next){
+    console.log('*******************1111111111111111');
+    console.log(to);
+    console.log(from);
+    console.log(next);
+    console.log('*******************');
+    next()
+  }, beforeRouteEnter(to,from ,next){
+    console.log('*******************11111111111111222222222221');
+    console.log(to);
+    console.log(from);
+    console.log(next);
+    console.log('*******************');
+    next()
   },
   computed: {
     ...mapState({
@@ -266,7 +303,8 @@ export default {
       showModeValue: 'push',
       showPlacement: 'left',
       showPlacementValue: 'left',
-      clientHeight:0
+      clientHeight:0,
+      keepAlive:false
     }
   }
 }
@@ -353,6 +391,11 @@ html, body {
 }
 
 .router-view {
+  width: 100%;
+  top: 46px;
+}
+
+.router-view2 {
   width: 100%;
   top: 46px;
 }

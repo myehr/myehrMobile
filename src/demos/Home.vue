@@ -41,29 +41,7 @@
         <badge :text="donetotal" v-show="!showDoneLoading"  ></badge>
 
       </cell>
-      <cell title="我的已办" link=""  v-on:click.native="gomyehrlist2" >
-        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
-        <span class="weui-loading" v-show="showDoneLoading" />
-        <badge :text="donetotal" v-show="!showDoneLoading"  ></badge>
 
-      </cell>
-      <cell title="我的已办" link=""  v-on:click.native="gomyehrlist2" >
-        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
-        <span class="weui-loading" v-show="showDoneLoading" />
-        <badge :text="donetotal" v-show="!showDoneLoading"  ></badge>
-
-      </cell>
-      <cell title="我的已办" link=""  v-on:click.native="gomyehrlist2" >
-        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
-        <span class="weui-loading" v-show="showDoneLoading" />
-        <badge :text="donetotal" v-show="!showDoneLoading"  ></badge>
-
-      </cell><cell title="我的已办" link=""  v-on:click.native="gomyehrlist2" >
-      <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
-      <span class="weui-loading" v-show="showDoneLoading" />
-      <badge :text="donetotal" v-show="!showDoneLoading"  ></badge>
-
-    </cell>
 
      <!-- <cell title="流程发起" link=""  v-on:click.native="gomyehrflowstart" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
@@ -171,13 +149,9 @@ export default {
   },
   methods:{
     testlist(){
-
-      var vl = [{
-        path: '/myehrpath/testList1Config',
-          component: () => import('../myehrpath/testList1Config.vue').then(m => m.default)
-      }]
-      this.$router.addRoutes(vl);
-      this.$router.push('/myehrpath/testList1Config')
+      var param = {keepAlive:true};
+      //this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',true);
+      this.gotoMyehrPath('/myehrpath/work/worktab2',param,'tab页面2',true)
     },
     gotoSwiperDetail(item){
         console.log('轮播点击回调');
@@ -197,7 +171,8 @@ export default {
       this.$router.push('/component/myehrcard')
     },
     gologin(){
-      this.gotoMyehrPath('/myehrpath/login',null,'重新登录');
+      var param = {keepAlive:true};
+      this.gotoMyehrPath('/myehrpath/login',param,'重新登录');
      // this.$router.push({path:'/myehrpath/login',query:{pageTitle:'重新登录'}})
     },gologinout(){
       delCookie('username')

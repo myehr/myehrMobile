@@ -158,7 +158,7 @@ export default {
             path: '${path}',
             component: () => import('./demos/${filename}.vue').then(m => m.default),
             meta: {
-              keepAlive: true
+              keepAlive: false
             }
           }`)
         }
@@ -166,7 +166,10 @@ export default {
           console.log('正在加载组件....'+filename);
           strall.push(`{
             path: '${path}',
-            component: () => import('./demos/${filename}.vue').then(m => m.default)
+            component: () => import('./demos/${filename}.vue').then(m => m.default),
+            meta: {
+              keepAlive: false
+            }
           }`)
         }
 
@@ -177,7 +180,10 @@ export default {
         // 404 page
         strall.push(`{
           path: '*',
-          component: () => import('./demos/NotFoundComponent.vue').then(m => m.default)
+          component: () => import('./demos/NotFoundComponent.vue').then(m => m.default),
+          meta: {
+              keepAlive: false
+            }
         }`)
         let temp = [];
 

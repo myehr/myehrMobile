@@ -19,6 +19,16 @@ export default {
   name: 'tabbar-item',
   components: {
     Badge
+  },methods:{
+    onItemClick1 (hasLink) {
+
+      if (this.link === '/') {
+        this.$router.push(this.link)
+      }else {
+        console.log(this.link+'**************'+this.title+'********'+this.keepAlive)
+        this.gotoMyehrPath(this.link,null,this.title,this.keepAlive)
+      }
+    }
   },
   mounted () {
     if (!this.$slots.icon) {
@@ -36,7 +46,9 @@ export default {
     },
     badge: String,
     link: [String, Object],
-    iconClass: String
+    iconClass: String,
+    keepAlive:false,
+    title:''
   },
   computed: {
     isActive () {

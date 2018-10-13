@@ -35,19 +35,25 @@ Vue.prototype.registComponents = function (path){
   var name  = path.split("/").join('')
   Vue.component(name,    require(`@/myehrpath${filePath}.vue`));
 }
-Vue.prototype.registPath= function (path){
+Vue.prototype.registPath= function (path,cache){
+  if(cache==null) {
+    cache = false;
+  }
   if(DEV_MODE == true) {
     var filePath =path.replace("/myehrpath","");
     var vl = [{
       path: path,
-      component: () => import(`@/myehrpath${filePath}`).then(m => m.default)
+      component: () => import(`@/myehrpath${filePath}`).then(m => m.default),
+      meta: {
+        keepAlive: cache // 不需要缓存
+      }
     }]
     this.$router.addRoutes(vl);
   }
 }
 //添加全局注册动态路由方法
-Vue.prototype.gotoMyehrPath = function (path,param,title) {
-  this.registPath(path);
+Vue.prototype.gotoMyehrPath = function (path,param,title,cache) {
+  this.registPath(path,cache);
   if(title){
     if(param) {
       param['pageTitle'] = title;

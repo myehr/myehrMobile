@@ -1,6 +1,6 @@
 <template>
   <div class="container noscroll ">
-    <search @on-submit="startQuery" @on-blur="startQuery" v-model="commonFilterParam" :auto-fixed="false"></search>
+    <search @on-submit="startQuery" @on-blur="startQuery" v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
     <div slot="content" class="card-demo-flex">
       <div class="vux-1px-r"  v-on:click="showOrderByList= !showOrderByList"  v-if="listOrderByColumn.length>0">
         <span>{{ listOrderByCheckName==null?'排序字段':listOrderByCheckName  }}</span>
@@ -17,7 +17,7 @@
       </div>
       <div class="vux-1px-r" v-if="hasFilterColumnDatas()" v-on:click="clickShowFilter" >
         <span class="fas fa-filter" style="color: red; font-size:9px"></span>
-        <span   >筛选1</span>
+        <span   >筛选</span>
 
       </div>
 
@@ -294,6 +294,7 @@
         ibuttons:{
 
         },
+        isHowTopQuery:{},
         filterColumnDatas:{
           type:Array,
           default:function () {

@@ -1,7 +1,7 @@
 <template>
     <div>
-      <datetime   v-model="startDateValue" :start-date="start_date" :end-date="getSEndDateValue()" format="YYYY-MM-DD" placeholder="请选择起始日期"  title="起"></datetime>
-      <datetime   v-model="endDataValue"   :start-date="getEStartDateValue()"  :end-date="end_date"  placeholder="请选择截止日期"  title="止"></datetime>
+      <datetime   v-model="startDateValue" :start-date="start_date" :end-date="getSEndDateValue()" format="YYYY-MM-DD" placeholder="请选择起始"  title="起"></datetime>
+      <datetime   v-model="endDataValue"   :start-date="getEStartDateValue()"  :end-date="end_date"  placeholder="请选择截止"  title="止"></datetime>
     </div>
 </template>
 
