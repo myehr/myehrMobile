@@ -1,7 +1,7 @@
 <template>
   <div>
      <list1-component v-bind:rows="this.rows"   v-bind:standDataColumn="standDataColumn" v-bind:pager="pager" v-bind:showRowDataColumn="showRowColumn" v-bind:ibuttons="ibuttons"
-                      @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" :orderByColumn="orderByColumn"  :filterColumnDatas="filterColumnDatas">
+                      @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" @onBlurQuery="onBlurQuery" :orderByColumn="orderByColumn" :isHowTopQuery="isHowTopQuery"  :filterColumnDatas="filterColumnDatas">
 
      </list1-component>
 
@@ -67,7 +67,13 @@
         onLoadData(){
           //重新加载数据 带入条件 排序字段
         },
+        onBlurQuery(value){
+          var old = this.filterParams ;
+          old[rtyuiop] = value;
+          loadData(null,null,old,this.orderByParam);
+        },
         loadData(initRows,pager,filterParams,orderByParam){
+          this.filterParams = filterParams;
           console.log('排序数据')
           console.log(orderByParam)
           filterParams= { //查询条件实例
@@ -112,6 +118,8 @@
 
       data () {
         return {
+          orderByParam:{},
+          filterParams:{},
           orderByColumn:[ {name:'id',type:'list',lableName:'序列',defaultOrderBy:'asc',checked:false}, {name:'code',type:'default',lableName:'编码',defaultOrderBy:'asc',checked:false}, {name:'name',type:'list',lableName:'名称',defaultOrderBy:'asc',checked:false}, {name:'date',type:'list',lableName:'创建日期',defaultOrderBy:'asc',checked:false} ],
           filterColumnDatas:[ { name:'v1', lableName:'多选', type:'checkbox', dictId:'test', defaultValue:'' }, { name:'v2', type:'radio', lableName:'单选', dictId:'test', defaultValue:'' }, { name:'v3', lableName:'显示名字', type:'date', dictId:'test', defaultValue:'' }, { name:'v4', lableName:'显示名字', type:'textbox', dictId:'test', defaultValue:'' }, { name:'v5', lableName:'显示名字', type:'textbox', dictId:'test', defaultValue:'' } ],
           screenWidth: document.body.clientWidth,
@@ -124,6 +132,7 @@
           ibuttons:[{buttonName:'在职背景',icon:'fas fa-edit',buttonId:113}],
           rows: [],
           totalData:-1,
+          isHowTopQuery:false,
           }
         }
     }

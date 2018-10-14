@@ -2,7 +2,7 @@
   <div >
     <group title="分组1">
       <!-- 自定义验证  -->
-      <x-input title="姓名："  placeholder="请输入姓名" is-type="china-name"></x-input>
+      <x-input title="姓名："  placeholder="请输入姓名" is-type="china-name" :aria-readonly="true"></x-input>
 
       <!-- 自定义验证  -->
       <x-input title="自定义验证：" :is-type="be2333"  placeholder="自定义验证" ></x-input>

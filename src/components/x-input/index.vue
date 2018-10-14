@@ -518,8 +518,9 @@ export default {
         this.currentValue = this.maskValue(this.currentValue)
       }
     },
-    valid () {
+    valid (newVal, oldVal) {
       this.getError()
+      this.$emit('onValidChange',newVal);
     },
     value (val) {
       this.currentValue = val

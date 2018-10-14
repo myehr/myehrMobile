@@ -1,38 +1,9 @@
 <template>
   <div >
     <group title="分组1">
-      <!-- 自定义验证  -->
-      <x-input title="姓名："  placeholder="请输入姓名" is-type="china-name"></x-input>
+      <!-- 自定义验证   -->
+      <x-input title="工号" @onValidChange="onValidChange"  placeholder="请输入姓名" is-type="china-mobile" required="true" ></x-input>
 
-      <!-- 自定义验证  -->
-      <x-input title="自定义验证：" :is-type="be2333"  placeholder="自定义验证" ></x-input>
-
-      <!-- 系统自带验证 -->
-      <x-input title="手机号码："  placeholder="请输手机号码" is-type="china-mobile"></x-input>
-
-      <x-input title="邮箱：" name="email" placeholder="请输入邮箱地址" is-type="email"></x-input>
-    </group>
-    <group title="分组2">
-      <x-input title="长度限制:" placeholder="最小2最大5" :min="2" :max="5"></x-input>
-
-      <x-input title="*必填:" placeholder="必填限制" required ></x-input>
-
-      <check-icon :value.sync="defaultCheckValue" type="plain" > 单选选项</check-icon>
-      <check-icon :value.sync="defaultCheckValue" type="plain" > 单选选项2</check-icon>
-    </group>
-
-    <group title="分组3">
-      <calendar :readonly="false" v-model="defaultDate" title="选择日期:" disable-past placeholder="选择日期" ></calendar>
-
-      <checklist title="下拉单选:" :options="commonList"  :max="1" ></checklist>
-
-      <popup-picker title="下拉单选方式2" :data="list1"    placeholder="请选中"></popup-picker>
-
-      <checklist title="下拉多选:" :options="commonList"  ></checklist>
-
-      <x-switch title="开关式" ></x-switch>
-
-      <datetime  title="选择时间(分):" format="YYYY-MM-DD HH:mm" :minute-list="['00', '15', '30', '45']" ></datetime>
     </group>
 
 
@@ -54,15 +25,46 @@
       Datetime,
       PopupPicker
     },
+    methods:{
+      onValidChange:function (value) {
+        this.checkValue = value;
+      }
+    },
+    created:{
+      initFormData:function () {
+        let tempData = {};
+        let isInit = this.paramData.isInit;
+        if(isInit == true) {
+          //需要初始化数据
+        }else {
+          //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
+          //1 如果某个字段初始值时从上一个页面传入参数
+          for(var i=0; i<this.dataColumn.length; i++){
+            var tempColumn = this.dataColumn[i];
+            if(tempColumn.columnType == '1') { //如果是文本控件类型字段
+             // if()
+            }
+          }
+
+        }
+      }
+    }
+    ,
     data (){
       return {
+        dataColumn:[
+            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'Y',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+            ],
         be2333: function (value) {
           return {
             valid: value === '2333',
             msg: 'Must be 2333'
           }
         },
+        formData:{EMP_EMPLOYEE_REG:'100'},
+        checkValue:true,
         defaultCheckValue:true,
+        paramData:this.$route.query,
         defaultDate:'TODAY',
         commonList: [ '中国', '日本', '美国' ],
         radioValue:'中国',
@@ -70,6 +72,64 @@
       }
     }
   }
+
+
+
+  /**
+   *
+   *
+   * 控件类型
+   {id: "11", text: "下拉树选择"}
+   {id: "12", text: "模糊匹配输入框"}
+   {id: "1", text: "文本框"}
+   {id: "8", text: "多行文本域"}
+   {id: "2", text: "下拉列表选择"}
+   {id: "6", text: "日期选择框"}
+   {id: "3", text: "单选框组"}
+   {id: "4", text: "复选框组"}
+   {id: "5", text: "复选框"}
+   {id: "7", text: "lookup弹出窗"}
+   {id: "9", text: "附件"}
+   {id: "10", text: "富文本"}
+
+   是否必填
+   {id: "Y", text: "是"}
+   {id: "N", text: "否"}
+
+   显示方式
+   {id: "show", text: "显示"}
+   {id: "hide", text: "隐藏"}
+   {id: "readonly", text: "只读"}
+   {id: "label", text: "label"}
+
+   验证类型
+   {id: "int", text: "数字"}
+   {id: "float", text: "实数"}
+   {id: "naturalNumber", text: "自然数"}
+   {id: "letter", text: "英文字母"}
+   {id: "engnum", text: "英文和数字"}
+   {id: "email", text: "邮件"}
+   {id: "zh", text: "汉字"}
+   {id: "url", text: "网址"}
+   {id: "chinaZipcode", text: "邮政编码"}
+   {id: "phone", text: "电话号码"}
+   {id: "chinaMobile", text: "手机号码"}
+   {id: "uniqueVerify", text: "唯一校验"}
+   {id: "chinaIDNo", text: "身份证号码"}
+   {id: "IP", text: "IP"}
+   {id: "fun", text: "自定义校验方案"}
+
+
+   //默认数据来源类型
+   {id: "session", text: "会话数据"}
+   {id: "parameter", text: "请求参数"}
+   {id: "constant", text: "常量"}
+   {id: "currentdate", text: "当前系统时间"}
+   {id: "initFun", text: "自定义初始化方案"}
+   {id: "urlParam", text: "流程用url参数"}
+
+   *
+   */
 </script>
 
 <style scoped>

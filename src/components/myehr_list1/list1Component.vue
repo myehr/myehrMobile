@@ -1,6 +1,6 @@
 <template>
   <div class="container noscroll ">
-    <search @on-submit="startQuery" @on-blur="startQuery" v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
+    <search @on-submit="blurQuery" @on-blur="blurQuery" v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
     <div slot="content" class="card-demo-flex">
       <div class="vux-1px-r"  v-on:click="showOrderByList= !showOrderByList"  v-if="listOrderByColumn.length>0">
         <span>{{ listOrderByCheckName==null?'排序字段':listOrderByCheckName  }}</span>
@@ -142,6 +142,10 @@
         }
       },
       methods :{
+        blurQuery(){
+         // commonFilterParam
+          this.$emit('onBlurQuery',this.commonFilterParam);
+        },
         clearOrderByOther(){
           for(var i=0; i<this.listOrderByColumn.length; i++){
               this.listOrderByColumn[i].checked = false;
