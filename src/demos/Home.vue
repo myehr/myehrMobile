@@ -25,7 +25,9 @@
       <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>-->
-
+      <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
       <cell title="列表测试" link=""  v-on:click.native="testlist" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -150,8 +152,8 @@ export default {
   methods:{
     testlist(){
       var param = {keepAlive:true};
-      //this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',true);
-      this.gotoMyehrPath('/myehrpath/work/worktab2',param,'tab页面2',true)
+      this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',true);
+    //  this.gotoMyehrPath('/myehrpath/work/worktab2',param,'tab页面2',true)
     },
     gotoSwiperDetail(item){
         console.log('轮播点击回调');
@@ -168,7 +170,8 @@ export default {
       this.$router.push('/component/myehrservice/namesds')
     },
     gomyehrcard(){
-      this.$router.push('/component/myehrcard')
+      //this.$router.push('/component/myehrcard')
+      this.gotoMyehrPath('/myehrpath/testCardForm',null,'卡片列表演示');
     },
     gologin(){
       var param = {keepAlive:true};
