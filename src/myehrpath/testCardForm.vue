@@ -2,7 +2,7 @@
   <div >
     <group title="分组1">
       <!-- 自定义验证   -->
-      <x-input title="工号" @onValidChange="onValidChange"  placeholder="请输入姓名" is-type="china-mobile" required="true" ></x-input>
+      <x-input title="工号" @onValidChange="onValidChange" v-model="formData.EMPCODE"  placeholder="请输入姓名" is-type="china-mobile" required="true" ></x-input>
 
     </group>
 
@@ -12,6 +12,7 @@
 
 <script>
   import { XInput,Calendar, Group, XButton, Cell,CheckIcon,Checklist,XSwitch ,Datetime,PopupPicker} from 'vux'
+  import  { getSessionData } from '@/libs/cookieUtil.js'
   export default {
     name: "testCardForm",
     components: {
@@ -28,32 +29,68 @@
     methods:{
       onValidChange:function (value) {
         this.checkValue = value;
+      },
+      dateFormat:function (date) {
+        const year = date.getFullYear()
+        const month = date.getMonth() + 1
+        const day = date.getDate()
+        const hour = date.getHours()
+        const minute = date.getMinutes()
+        const second = date.getSeconds()
+
+        return  year+'-'+month+'-'+day+' '+hour+":"+minute+":"+second;
       }
     },
-    created:{
-      initFormData:function () {
+    created(){
+      //  console.log('************************88')
         let tempData = {};
         let isInit = this.paramData.isInit;
         if(isInit == true) {
           //需要初始化数据
         }else {
+
           //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
           //1 如果某个字段初始值时从上一个页面传入参数
           for(var i=0; i<this.dataColumn.length; i++){
             var tempColumn = this.dataColumn[i];
             if(tempColumn.columnType == '1') { //如果是文本控件类型字段
-             // if()
+              if(tempColumn.columnTypeDetail.textboxDataFromType == 'session') { //默认值为session回话参数时。
+                  let session = getSessionData();
+                  let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+                  //后面实现
+              }
+              if(tempColumn.columnTypeDetail.textboxDataFromType == 'parameter') { //默认值为页面请求过来的参数表
+               // let param = this.paramData;
+                let param = {p1:100,p2:'1111'};
+                let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+                console.log(formValue+'************************88')
+                this.formData[tempColumn.columnId] = param[formValue];
+                //后面实现
+              }
+              if(tempColumn.columnTypeDetail.textboxDataFromType == 'constant') { //默认值为常量参数
+                let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+                this.formData[tempColumn.columnId] = formValue;
+                //后面实现
+              }
+              if(tempColumn.columnTypeDetail.textboxDataFromType == 'currentdate') { //默认值为常量参数
+                let date = new Date();
+                let formatTime = this.dateFormat(date);
+                this.formData[tempColumn.columnId] = formatTime;
+                //后面实现
+              }
+              if(tempColumn.columnTypeDetail.textboxDataFromType == 'initFun') { //默认值为自定义函数
+                alert(1);
+              }
+              //initFun
             }
           }
-
-        }
       }
     }
     ,
     data (){
       return {
         dataColumn:[
-            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'Y',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'Y',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'currentdate',textboxDataFromValue:'p2',textboxEmptytext:''}}
             ],
         be2333: function (value) {
           return {
@@ -64,7 +101,7 @@
         formData:{EMP_EMPLOYEE_REG:'100'},
         checkValue:true,
         defaultCheckValue:true,
-        paramData:this.$route.query,
+        paramData:this.$route.query, //页面请求参数
         defaultDate:'TODAY',
         commonList: [ '中国', '日本', '美国' ],
         radioValue:'中国',

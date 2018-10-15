@@ -53,13 +53,14 @@
             }).then(function (response) {
                 console.log(response.data.result)
                 if(response.data.result === 'success') {
-                  this.$router.push({path:'/',query:{title:'登录成功',desc:'',icon:'success'}})
                   setCookie('username',this.up.username,30);
                   setCookie('password',password,30);
-                  setCookie('sessionParam',{orgid:1,orgName:'测试'},30);
+                  setCookie('sessionParam',JSON.stringify({orgid:1,orgName:'测试'}),30);
                   console.log('**************************************')
                   var  sessionParam = getCookie('sessionParam')
-                  console.log(sessionParam.orgName)
+
+
+                  this.$router.push({path:'/',query:{title:'登录成功',desc:'',icon:'success'}})
                 }else {
                   this.$router.push({path:'/myehrpath/mmsg',
                     query:{
