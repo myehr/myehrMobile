@@ -2,7 +2,11 @@
   <div >
     <group title="分组1">
       <!-- 自定义验证   -->
-      <x-input title="工号" @onValidChange="onValidChange" v-model="formData.EMPCODE"  placeholder="请输入姓名" is-type="china-mobile" required="true" ></x-input>
+      <x-input :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+               :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false"
+               placeholder="请输入姓名" :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></x-input>
+            <hr-check-list :dataList="checkListDatas"></hr-check-list>
+
 
     </group>
 
@@ -13,6 +17,7 @@
 <script>
   import { XInput,Calendar, Group, XButton, Cell,CheckIcon,Checklist,XSwitch ,Datetime,PopupPicker} from 'vux'
   import  { getSessionData } from '@/libs/cookieUtil.js'
+  import  hrCheckList from '@/components/myerh_form/hrCheckList.vue'
   export default {
     name: "testCardForm",
     components: {
@@ -24,7 +29,8 @@
       Checklist,
       XSwitch,
       Datetime,
-      PopupPicker
+      PopupPicker,
+      hrCheckList
     },
     methods:{
       onValidChange:function (value) {
@@ -39,6 +45,43 @@
         const second = date.getSeconds()
 
         return  year+'-'+month+'-'+day+' '+hour+":"+minute+":"+second;
+      },initdata:function (columnId) {
+        return "初始化函数的值";
+      },getTextBolxCheck(i){
+        var tempColumn = this.dataColumn[i];
+        if(tempColumn.columnTypeDetail.textboxCheckType != 'fun') {
+          return tempColumn.columnTypeDetail.textboxCheckType;
+        }else {
+          return  'checkSelf'+i;
+        }
+      },setTextBoxDefaultValue(i) {
+        var tempColumn = this.dataColumn[i];
+        //初始化设置
+        if (tempColumn.columnTypeDetail.textboxDataFromType == 'session') { //默认值为session回话参数时。
+          let session = getSessionData();
+          let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+          //后面实现
+        }
+        if (tempColumn.columnTypeDetail.textboxDataFromType == 'parameter') { //默认值为页面请求过来的参数表
+          // let param = this.paramData;
+          let param = {p1: 100, p2: '1111'};
+          let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+          console.log(formValue + '************************88')
+          this.formData[tempColumn.columnId] = param[formValue];
+        }
+        if (tempColumn.columnTypeDetail.textboxDataFromType == 'constant') { //默认值为常量参数
+          let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+          this.formData[tempColumn.columnId] = formValue;
+        }
+        if (tempColumn.columnTypeDetail.textboxDataFromType == 'currentdate') { //默认值为常量参数
+          let date = new Date();
+          let formatTime = this.dateFormat(date);
+          this.formData[tempColumn.columnId] = formatTime;
+        }
+        if (tempColumn.columnTypeDetail.textboxDataFromType == 'initFun') { //默认值为自定义函数
+          let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
+          this.formData[tempColumn.columnId] = (eval("this." + formValue + "('" + tempColumn.columnId + "');"));
+        }
       }
     },
     created(){
@@ -52,37 +95,9 @@
           //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
           //1 如果某个字段初始值时从上一个页面传入参数
           for(var i=0; i<this.dataColumn.length; i++){
-            var tempColumn = this.dataColumn[i];
-            if(tempColumn.columnType == '1') { //如果是文本控件类型字段
-              if(tempColumn.columnTypeDetail.textboxDataFromType == 'session') { //默认值为session回话参数时。
-                  let session = getSessionData();
-                  let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
-                  //后面实现
-              }
-              if(tempColumn.columnTypeDetail.textboxDataFromType == 'parameter') { //默认值为页面请求过来的参数表
-               // let param = this.paramData;
-                let param = {p1:100,p2:'1111'};
-                let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
-                console.log(formValue+'************************88')
-                this.formData[tempColumn.columnId] = param[formValue];
-                //后面实现
-              }
-              if(tempColumn.columnTypeDetail.textboxDataFromType == 'constant') { //默认值为常量参数
-                let formValue = tempColumn.columnTypeDetail.textboxDataFromValue;
-                this.formData[tempColumn.columnId] = formValue;
-                //后面实现
-              }
-              if(tempColumn.columnTypeDetail.textboxDataFromType == 'currentdate') { //默认值为常量参数
-                let date = new Date();
-                let formatTime = this.dateFormat(date);
-                this.formData[tempColumn.columnId] = formatTime;
-                //后面实现
-              }
-              if(tempColumn.columnTypeDetail.textboxDataFromType == 'initFun') { //默认值为自定义函数
-                alert(1);
-              }
-              //initFun
-            }
+              //数据验证
+            this.setTextBoxDefaultValue(i);
+
           }
       }
     }
@@ -90,7 +105,7 @@
     data (){
       return {
         dataColumn:[
-            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'Y',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'currentdate',textboxDataFromValue:'p2',textboxEmptytext:''}}
+            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:''}}
             ],
         be2333: function (value) {
           return {
@@ -103,7 +118,7 @@
         defaultCheckValue:true,
         paramData:this.$route.query, //页面请求参数
         defaultDate:'TODAY',
-        commonList: [ '中国', '日本', '美国' ],
+        checkListDatas: [ {code:'1',name:'张三'},{code:'2',name:'李四'}],
         radioValue:'中国',
         list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']]
       }
