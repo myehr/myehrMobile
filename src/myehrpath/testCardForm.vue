@@ -5,7 +5,7 @@
       <x-input :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
                :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false"
                placeholder="请输入姓名" :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></x-input>
-            <hr-check-list :dataList="checkListDatas"></hr-check-list>
+            <hr-check-list v-model="checkval" :dataList="checkListDatas" isMutiple="true"></hr-check-list>
 
 
     </group>
@@ -31,6 +31,10 @@
       Datetime,
       PopupPicker,
       hrCheckList
+    },watch:{
+      checkval:function(n,o){
+        console.log(n+'  外面值')
+      }
     },
     methods:{
       onValidChange:function (value) {
@@ -120,7 +124,8 @@
         defaultDate:'TODAY',
         checkListDatas: [ {code:'1',name:'张三'},{code:'2',name:'李四'}],
         radioValue:'中国',
-        list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']]
+        list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
+        checkval:'1,2'
       }
     }
   }
