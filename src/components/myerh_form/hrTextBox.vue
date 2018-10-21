@@ -25,6 +25,7 @@
           }
         },created(){
           this.currentValue = this.value;
+          console.log('textbox初始值:'+this.value)
           if(this.required === true || this.required === 'true') {
             if(this.value == null ||this.value === '') {
               this.valid = false;

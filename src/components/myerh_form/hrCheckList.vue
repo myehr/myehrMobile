@@ -140,10 +140,12 @@
       if(this.isMutiple === true || this.isMutiple==='true' ) {
         this.max = this.nameList.length;
       }
+
       if(this.readonly === true) {
         this.readOnlyText =  this.getNameByCode(this.value);
         return ;
       }
+
       if(this.required === true || this.required === 'true') {
         if(this.retDataChckList === null ||this.retDataChckList.length ===0) {
           this.valid = false;
@@ -157,32 +159,22 @@
       selectValue(n,o){
         console.log(o)
       },
-      value(n,o){
-         if(n == null || n == '') {
-           if(this.required == true || this.required == 'true' ){
-             this.valid = false;
-           }
-           this.retDataChckList = null;
-           return ;
-         }
-        this.valid = true;
-        this.$emit('onValidChange',this.valid );
-        let newVal = n.split(',');
-        let retValue = [];
-        for(var i=0; i<newVal.length; i++){
-          var t = newVal[i];
-          for(var k=0; k<this.codeList.length; k++){
-            if(this.codeList[k] == t) {
-              retValue.push(this.nameList[k]);
-            }
+      retDataChckList (newVal,oldVal) {
+
+        if(this.required === true || this.required === 'true') {
+          if(newVal === null ||newVal.length ===0) {
+            this.valid = false;
+          }else {
+            this.valid = true;
           }
         }
-        this.retDataChckList = retValue ;
 
-      },
-      retDataChckList (newVal,oldVal) {
-        console.log(newVal+'*********')
+        if(newVal == null ||newVal === ''){
+          this.$emit('input',  newVal);
+          return ;
+        }
         let retValue = [];
+
         for(var i=0; i<newVal.length; i++){
           var t = newVal[i];
           for(var k=0; k<this.nameList.length; k++){
@@ -191,13 +183,7 @@
             }
           }
         }
-        if(this.required === true || this.required === 'true') {
-          if(newVal === null ||newVal.length ===0) {
-            this.valid = false;
-          }else {
-            this.valid = true;
-          }
-        }
+        console.log('IIIIIIIIIIIIIII'+retValue);
         this.$emit('input',  retValue.toString());
       }
     },props:{

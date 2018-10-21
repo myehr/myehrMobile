@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="templateHeight">
     <group title="分组1">
       <!-- 自定义验证   -->
       <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
@@ -52,8 +52,12 @@
                    :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
                    :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
     </group>
-
-
+    <div v-transfer-dom>
+      <loading :show="show1" :text="text1"></loading>
+    </div>
+    <div class="bottomFixed" style="margin-bottom:  50px ;width: 98%">
+      <x-button type="primary"   @click.native="submitForm">提交</x-button>
+    </div>
   </div>
 </template>
 
@@ -82,15 +86,21 @@
       hrCheckList,
       HrTextarea,
       HrFileUpload,
-      HrTextBox
+      HrTextBox,
+      XButton
     },watch:{
       checkval:function(n,o){
         console.log(n+'  外面值')
       },datevalue(n,o){
         console.log(n+'  外面值')
+      },formData(o,n){
+        console.log(o)
       }
     },
     methods:{
+      submitForm(){
+
+      },
       onValidChange:function (value) {
         console.log("验证结果："+value)
         this.checkValue = value;
@@ -112,8 +122,24 @@
       //  console.log('************************88')
         let tempData = {};
         let isInit = this.paramData.isInit;
+        isInit = true;
         if(isInit == true) {
           //需要初始化数据
+          this.$axios.post('/myehr/form/cardformInitData.action',
+            {formId:'3886',pkId:'',"containerParam":{},"paramsMap":{},"requestParam":{"EMPEMPLOYEE_EMPID":"258"}}
+          )
+            .then(function (response) {
+              if(response.data) {
+                if(response.data.rows[0]) {
+                  this.formData = response.data.rows[0];
+                }
+              }
+              console.log(response)
+            }.bind(this))
+            .catch(function (error) {
+              console.log(error);
+            });
+
         }else {
 
           //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
@@ -130,7 +156,7 @@
       return {
         dataColumn:[
             {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
-            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
+            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_CNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
@@ -141,7 +167,7 @@
             msg: 'Must be 2333'
           }
         },
-        formData:{EMP_EMPLOYEE_REG:'100'},
+        formData:null,
         checkValue:true,
         defaultCheckValue:true,
         paramData:this.$route.query, //页面请求参数
