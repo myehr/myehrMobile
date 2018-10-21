@@ -3,7 +3,6 @@
   <div class="m-item">
     <div class="m-wrap">
       <div class="m-info">
-
           <div class="poster-c" v-show="isImgUrl" >
             <a  class="poster" style="opacity: 1; transition: opacity 0.5s ease-in;" v-bind:style="imgUrl">
               <i class="i-play"></i>
@@ -19,18 +18,18 @@
           </a>
 
         <div class="btn-wrap">
-
-          <div v-for="button in ibuttons" class="tpp-btn tpp-btn-primary brief"  v-on:click="buttomClick(button.buttonId)"  >
+          <div v-for="button in right_buttons" class="tpp-btn tpp-btn-primary brief"  v-on:click="buttomClick(button.buttonId)"  >
             <span v-bind:class="button.icon"  /> {{button.buttonName}}
           </div>
-
-
-
-
         <!--  <div  data-spm="d_440300_1_0_226591" class="tpp-btn tpp-btn-primary"> <span class="far fa-receipt"  /> 查看</div>
           <div href="" data-spm="d_440300_1_0_226591" class="tpp-btn tpp-btn-primary"><span class="fas fa-edit"  /> 修改</div>
           <div href="" data-spm="d_440300_1_0_226591" class="tpp-btn tpp-btn-primary"><span class="far fa-trash-alt"  /> 删除</div>-->
+        </div>
+      </div>
 
+      <div>
+        <div v-for="button in bottom_buttons" class="tpp-btn tpp-btn-primary brief"  v-on:click="buttomClick(button.buttonId)"  >
+          <span v-bind:class="button.icon"  /> {{button.buttonName}}
         </div>
       </div>
     </div>
@@ -69,9 +68,13 @@
         rowData:{
           required:true
         },
-        ibuttons:{
+        right_buttons:{
+          required:false
+        },
+        bottom_buttons:{
           required:false
         }
+
       },
       data () {
         return {

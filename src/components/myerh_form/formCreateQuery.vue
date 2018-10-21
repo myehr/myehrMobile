@@ -5,7 +5,7 @@
           <group :title="temp.lableName"  v-if="temp.type === 'radio'">
             <div class="sp">
               <checker v-model="filterColumnValueData_temp[index].value"  default-item-class="demo5-item" selected-item-class="demo5-item-selected" type="radio">
-                <checker-item v-for="temp in  getDictList('dictId')"   :key="temp.id" :value="temp.id"  >{{temp.name}}</checker-item>
+                <checker-item v-for="temp in  dictValue[temp.dictId]"   :key="temp.code" :value="temp.code"  >{{temp.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -13,7 +13,7 @@
 
             <div class="sp" >
               <checker type="checkbox" v-model="filterColumnValueData_temp[index].value" default-item-class="demo5-item" selected-item-class="demo5-item-selected"  >
-                <checker-item v-for="t in getDictList('dictId')" :key="t.id" :value="t.id">{{t.name}}</checker-item>
+                <checker-item v-for="t in getDictList(temp.dictId)" :key="t.code" :value="t.code">{{t.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -58,18 +58,47 @@
         },created: function(){
           // 这里是动态生成v-model,这个可以放在网络请求成功里面;
           var len = this.filterColumnDatas.length;
-          for (var i = 0; i < len; i ++) {
+          var dictCode = []
+          for (var i = 0,j=0; i < len; i ++) {
             var item = {value: null};
             this.filterColumnValueData_temp.push(item);
+            if(this.filterColumnDatas[i].dictId!=undefined&&this.filterColumnDatas[i].dictId!=null){
+              dictCode[j] = this.filterColumnDatas[i].dictId
+              j++
+            }
           }
+        this.getDictList(dictCode)
       },
         methods :{
           onChange (val) {
             console.log('change', val)
           },
-          getDictList(){
-
-            return [{id:'1',name:'张三'},{id:'2',name:'李四'},{id:'3',name:'张三3'},{id:'4',name:'李四4'},{id:'5',name:'张三5'},{id:'6',name:'李四6'},{id:'7',name:'李四6'},{id:'8',name:'李四6'}];
+          getDictList (dictIds) {
+            var dictParams = [];
+            var dictDatax = [];
+            for (var i = 0; i < dictIds.length; i++) {
+              console.log(dictIds[i])
+              var dictDatas = dictIds[i].split('|')
+              var dictParam = {}
+              dictParam.formColumnGuiType = dictDatas[0]
+              dictParam.formColumnUsName = dictDatas[1]
+              dictParams[i] = dictParam
+            }
+            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+            console.log(dictParams)
+            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+            this.$axios.post('/myehr/dict/getselectdatasAll.action',dictParams).then(function (response) {
+              for (var i = 0; i < dictIds.length; i++) {
+                dictDatax[dictIds[i]] = response.data[0]
+              }
+              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+              console.log(dictDatax)
+              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+              this.dictValue = dictDatax
+            }.bind(this))
+              .catch(function (error) {
+                console.log(error)
+              })
           },
           getFormData(){
             var len = this.filterColumnValueData_temp.length;
@@ -99,6 +128,7 @@
         return {
           filterColumnValueData_temp:[],
           filterColumnValueData:{},
+          dictValue:[],
           defaultHourList: ['09', '10', '11', '12', '13', '14', '15', '16', '17','18', '19', '20', '21', '22', '23', '00', '01', '02', '03','04','05','06','06','08'],
           defaultMinuteList:['00', '15', '30', '45']
         }
