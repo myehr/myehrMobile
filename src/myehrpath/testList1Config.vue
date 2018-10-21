@@ -129,7 +129,7 @@
               {columnId:'EMPVEMPLOYEE_JOBID_DICTNAME',columnName:'职务'}
             ],
           pager:{offset:0,limit:10},
-          ibuttons:[{buttonName:'在职背景',icon:'fas fa-edit',buttonId:113}],
+          ibuttons:[{buttonName:'在职背景',icon:'fas fa-edit',buttonId:113,area:"right"}],
           rows: [],
           totalData:-1,
           isHowTopQuery:false,

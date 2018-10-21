@@ -1,6 +1,6 @@
 <template>
     <div class="weui-cell">
-      <x-input :title="title" @onValidChange="onValidChange" v-model="currentValue"  :v-if="!readonly" :placeholder="placeholder"
+      <x-input :title="title" @onValidChange="onValidChange" v-model="currentValue"  :readonly="readonly" :placeholder="placeholder"
                :is-type="checkType" :required="required" ></x-input>
     </div>
 </template>

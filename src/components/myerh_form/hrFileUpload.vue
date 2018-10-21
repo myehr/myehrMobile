@@ -52,6 +52,7 @@
 
 <script>
   import FileUpload from 'vue-upload-component'
+
   export default {
     components: {
       FileUpload,

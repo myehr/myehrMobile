@@ -4,44 +4,71 @@
         <label for="vux-x-input-uosjx" class="weui-label" style="width: 4em;">{{title}}</label>
       </div>
       <div class="weui-cell__bd weui-cell__primary" style="text-align: left">
-        <textarea wrap="soft" autocomplete="off" spellcheck="false" :placeholder="placeholder" rows="4" class="ivu-input" style="height: 52px; min-height: 52px; max-height: 115px; overflow-y: hidden;">
-        </textarea>
+        <div class='hrtextarea' contenteditable placeholder='请输入文字' ref="mybox"   v-on:focus="onFocus" v-on:blur="getBlur" ></div>
       </div>
     <div class="weui-cell__ft">
-      <i class="weui-icon weui_icon_clear weui-icon-clear" ></i>
-      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" title="邮箱格式格式不对哦~" style=""></i>
+      <i class="weui-icon weui_icon_clear weui-icon-clear" v-if="showClean" v-on v-on:click="cleanData"></i>
+      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" v-if="!valid" :title="errorMessage" v-on:click="showErrorMsg()" style=""></i>
     </div>
+    <toast v-model="showToaskMsg" type="text" :time="800" is-show-mask :text="errorMessage"  ></toast>
     </div>
 </template>
 
 <script>
+  import  {getConstant} from  '@/libs/constant.js';
+  import Toast from '@/components/toast/index.vue'
     export default {
         name: "hrTextarea",
+        components: {
+          Toast
+        },
         props:{
           title:{},
           value:{type:Object},
           required:{},
           readonly:{},
           placeholder:{}
+        },methods:{
+          getBlur(){
+              this.showClean = false;
+              this.currentValue = this.$refs.mybox.innerText;
+          },
+          onFocus(e){
+              this.showClean = true;
+          },
+          cleanData(){
+              this.$refs.mybox .innerText = null;
+              this.getBlur();
+          },
+          showErrorMsg(){
+            this.showToaskMsg= true;
+          }
         },created(){
           this.currentValue = this.value;
           if(this.required === true || this.required === 'true') {
             if(this.value == null ||this.value === '') {
               this.valid = false;
+              this.errorMessage = getConstant('notNullMsg');
             }else {
               this.valid =  true;
+              this.errorMessage = null;
             }
           }
         },watch:{
           valid(n,o){
             this.$emit('onValidChange',n);
           },
+          value(n,o){
+            this.currentValue = n;
+          },
           currentValue(n,o){
             if(this.required === true || this.required === 'true') {
               if(n == null ||n === '') {
                 this.valid = false;
+                this.errorMessage = getConstant('notNullMsg');
               }else {
                 this.valid =  true;
+                this.errorMessage = null;
               }
             }
             this.$emit('input',  n);
@@ -49,7 +76,10 @@
         },data(){
               return {
                 currentValue:null,
-                valid:true
+                valid:true,
+                showClean:false,
+                errorMessage:null,
+                showToaskMsg :false
               }
         }
     }
@@ -77,5 +107,22 @@
     position: relative;
     cursor: text;
     transition: border .2s ease-in-out,background .2s ease-in-out,box-shadow .2s ease-in-out;
+  }
+  .hrtextarea {
+    width: r(670);
+    height: auto;
+    min-height: r(160);
+    max-height: r(200);
+    border: r(1) solid #cecece;
+    font-size: r(24);
+    text-align: justify;
+    overflow-y: auto;
+    outline: none;
+    margin: 0 auto;
+    margin-top: r(100);
+  }
+  .hrtextarea:empty::before {
+    content: attr(placeholder);
+    color:grey;
   }
 </style>

@@ -3,13 +3,20 @@
     <div class="weui-cell__hd">
       <label for="vux-x-input-uosjx" class="weui-label" style="width: 4em;">{{title}}</label>
     </div>
-    <div class="weui-cell__bd weui-cell__primary" style="text-align: left">
+    <div class="weui-cell__bd weui-cell__primary" style="text-align: right" v-if="readonly !== true">
       <checklist  class="weui-cell__bd weui-cell__primary"  :options="nameList" v-model="retDataChckList" :max="max" @on-change="change"></checklist>
     </div>
-    <div class="weui-cell__ft">
+    <div class="weui-cell__ft" v-if="readonly !== true">
       <i class="weui-icon weui_icon_clear weui-icon-clear" style="display: none;"></i>
-      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" title="邮箱格式格式不对哦~" style=""></i>
+      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" :title="errorMessage" style="" v-if="!valid" v-on:click="showErrorMsg"></i>
     </div>
+    <div v-if="readonly === true">
+      {{ readOnlyText }}
+    </div >
+    <toast v-model="shoToaskMsg" type="text" :time="800" is-show-mask :text="errorMessage"  ></toast>
+
+
+  </div>
   <!--  <popup-header id="vux-x-input-sc1cr" :left-text="$t('cancel')" :right-text="13131213" title="2332432"></popup-header>-->
 
    <!-- {{ value }}
@@ -56,6 +63,7 @@
 
 <script>
   import Checklist  from '@/components/checklist/index.vue'
+  import Toast from '@/components/toast/index.vue'
  /* import PopupHeader from '@/components/popup-header/index.vue'
   import Popup from '@/components/popup/index.vue'
   import XSwitch  from '@/components/x-switch/index.vue'
@@ -64,6 +72,7 @@
   export default {
     name: "hrCheckList",
     components: {
+      Toast,
       Checklist/*,
       PopupHeader,
       Popup,
@@ -75,6 +84,25 @@
     methods:{
       getDictData () {
 
+      },
+      showErrorMsg(){
+        this.shoToaskMsg= true;
+      },
+      getNameByCode(){
+        if(this.value == null || this.value === '') {
+          return null;
+        }
+        var textVal = [];
+        var arr = this.value.split(',');
+        for(var i=0; i<this.codeList.length; i++){
+          for(var k=0; k<arr.length; k++){
+            if(this.codeList[i] === arr[k]) {
+              textVal.push(this.nameList[i]);
+            }
+          }
+
+        }
+        return textVal.toString();
       },
       handleDataList (list,defaultVal) {
         for(var i=0 ;i<list.length; i++){
@@ -98,6 +126,7 @@
       }
     },
     created(){
+
       if(this.dataList != null &&this.dataList.length >0) {
         this.handleDataList(this.dataList,this.value );
       }else {
@@ -110,6 +139,15 @@
       }
       if(this.isMutiple === true || this.isMutiple==='true' ) {
         this.max = this.nameList.length;
+      }
+      if(this.readonly === true) {
+        this.readOnlyText =  this.getNameByCode(this.value);
+        return ;
+      }
+      if(this.required === true || this.required === 'true') {
+        if(this.retDataChckList === null ||this.retDataChckList.length ===0) {
+          this.valid = false;
+        }
       }
 
     },watch:{
@@ -124,7 +162,7 @@
            if(this.required == true || this.required == 'true' ){
              this.valid = false;
            }
-           this.retDataChckListv = null;
+           this.retDataChckList = null;
            return ;
          }
         this.valid = true;
@@ -139,10 +177,11 @@
             }
           }
         }
-        this.retDataChckListv = retValue ;
+        this.retDataChckList = retValue ;
 
       },
       retDataChckList (newVal,oldVal) {
+        console.log(newVal+'*********')
         let retValue = [];
         for(var i=0; i<newVal.length; i++){
           var t = newVal[i];
@@ -150,6 +189,13 @@
             if(this.nameList[k] == t) {
               retValue.push(this.codeList[k]);
             }
+          }
+        }
+        if(this.required === true || this.required === 'true') {
+          if(newVal === null ||newVal.length ===0) {
+            this.valid = false;
+          }else {
+            this.valid = true;
           }
         }
         this.$emit('input',  retValue.toString());
@@ -167,6 +213,7 @@
     },data(){
 
       return {
+        readOnlyText:null,
         commonList: [ '中国', 'Japan', 'America' ],
         codeList:[],
         nameList:[],
@@ -175,7 +222,9 @@
         msg:null,
         show1:false,
         selectValue:null,
-        valid:true
+        valid:true,
+        errorMessage:'必选项',
+        shoToaskMsg:false
       }
     }
   }
