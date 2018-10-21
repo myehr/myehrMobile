@@ -24,6 +24,9 @@ fontawesome.library.add(solid)
 fontawesome.library.add(regular)
 fontawesome.library.add(brands)
 
+const VueUploadComponent = require('vue-upload-component')
+Vue.component('file-upload', VueUploadComponent)
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 

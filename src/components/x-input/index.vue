@@ -1,5 +1,5 @@
 <template>
-	<div class="vux-x-input weui-cell"
+	<div class="weui-cell2"
 		:class="{
 			'weui-cell_warn': showWarn,
 			'disabled': disabled,

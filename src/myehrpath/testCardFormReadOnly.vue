@@ -2,17 +2,13 @@
   <div >
     <group title="分组1">
       <!-- 自定义验证   -->
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+      <x-input :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
                :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-               :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
+               :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></x-input>
 
-      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
-                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
-                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
-
-      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
-                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
-                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
+      <x-input :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
+               :readonly="dataColumn[1].formColumnShowType == 'readonly'?true:false"
+               :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext" :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired" ></x-input>
 
       <hr-check-list :title="dataColumn[2].columnName" v-model="formData[dataColumn[2].columnId]" @onValidChange="onValidChange"  :dataList="checkListDatas" isMutiple="false" :readonly="true" :required="true" ></hr-check-list>
 
@@ -21,30 +17,12 @@
       <hr-textarea :title="dataColumn[4].columnName" :placeholder="dataColumn[4].columnTypeDetail.textboxEmptytext"></hr-textarea>
 
       <hr-file-upload></hr-file-upload>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
+      <x-input :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+               :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
+               :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></x-input>
+      <x-input :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+               :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
+               :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></x-input>
     </group>
 
 
@@ -59,7 +37,6 @@
   import HrDateTime from "../components/myerh_form/hrDateTime";
   import HrTextarea  from '@/components/myerh_form/hrTextarea.vue'
   import HrFileUpload  from '@/components/myerh_form/hrFileUpload.vue'
-  import HrTextBox  from '@/components/myerh_form/hrTextBox.vue'
   export default {
     name: "testCardForm",
     components: {
@@ -75,8 +52,7 @@
       PopupPicker,
       hrCheckList,
       HrTextarea,
-      HrFileUpload,
-      HrTextBox
+      HrFileUpload
     },watch:{
       checkval:function(n,o){
         console.log(n+'  外面值')
@@ -124,7 +100,7 @@
       return {
         dataColumn:[
             {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
-            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
+            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:''}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'2',textboxEmptytext:''}}
           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}

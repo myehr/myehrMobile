@@ -235,14 +235,14 @@ function pure (obj) {
 @import '../../styles/weui/widget/weui_cell/weui_check';
 @import '../../styles/weui/icon/weui_icon_font';
 
-.weui-cells_checkbox .weui-check:checked + .vux-checklist-icon-checked:before {
+.weui-cells_checkbox .weui-check:checked +  {
   color: @checklist-icon-active-color;
 }
 
 .weui-cells_checkbox > label > * {
   pointer-events: none;
 }
-.vux-checklist-disabled .vux-checklist-icon-checked:before {
+.vux-checklist-disabled {
   opacity: 0.5;
 }
 .vux-checklist-label-left {

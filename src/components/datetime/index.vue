@@ -6,15 +6,6 @@
     data-confirm-text="确认"
     href="javascript:">
     <slot>
-      <div>
-        <slot name="title">
-          <p
-            :style="styles"
-            :class="labelClass"
-            v-html="title"></p>
-        </slot>
-        <inline-desc v-if="inlineDesc">{{ inlineDesc }}</inline-desc>
-      </div>
       <div
         class="weui-cell__ft vux-cell-primary vux-datetime-value"
         :style="{
