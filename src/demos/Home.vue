@@ -25,6 +25,11 @@
       <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>-->
+
+      <cell title="卡列演示" link=""  v-on:click.native="gotomyehrcardlist" >
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
+
       <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -150,6 +155,9 @@ export default {
     }
   },
   methods:{
+    gotomyehrcardlist(){
+      this.gotoMyehrPath('/myehrpath/testCardList.vue',null,'卡列演示');
+    },
     testlist(){
       var param = {keepAlive:true};
       //this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',true);

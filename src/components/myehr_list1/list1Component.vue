@@ -1,5 +1,5 @@
 <template>
-  <div class="container noscroll ">
+  <div class="container ">
     <search  v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
     <div slot="content" class="card-demo-flex">
       <div class="vux-1px-r"  v-on:click="showOrderByList= !showOrderByList"  v-if="listOrderByColumn.length>0">
@@ -235,7 +235,13 @@
         }
       },
       getWindowHeight () {
-        return window.innerHeight + 'px'
+      //  console.log('windheight:((((((((('+this.winHeight)
+        if(this.winHeight == null) {
+          return window.innerHeight + 'px'
+        }else {
+          return this.winHeight;
+        }
+
       },
       getStandData (row) {
         if (this.standDataColumn != null) {
@@ -309,6 +315,7 @@
 
     },
     props: {
+      winHeight:{},
       right_buttons: {
 
       },

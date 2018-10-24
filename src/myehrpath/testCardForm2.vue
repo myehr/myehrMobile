@@ -1,5 +1,5 @@
 <template>
-  <div class="templateHeight">
+  <div >
     <group title="分组1">
       <!-- 自定义验证   -->
       <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
@@ -13,51 +13,38 @@
       <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
                    :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
                    :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
+      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
+                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
 
-      <hr-check-list :title="dataColumn[2].columnName" v-model="formData[dataColumn[2].columnId]" @onValidChange="onValidChange"
-                     :dataList="checkListDatas" isMutiple="false" :readonly="dataColumn[2].formColumnShowType === 'readonly'?true:false"
-                     :required="dataColumn[2].formColumnRequired" ></hr-check-list>
+      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
+                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
+                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
 
-      <hr-date-time :title="dataColumn[3].columnName"  @onValidChange="onValidChange"  v-model="formData[dataColumn[3].columnId]" :required="dataColumn[3].formColumnRequired"
-      :format="dataColumn[3].columnTypeDetail.datepickerFormat"
-      ></hr-date-time>
+      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
+                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
+                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
+      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
+                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
+                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
 
-      <hr-textarea :title="dataColumn[4].columnName" :placeholder="dataColumn[4].columnTypeDetail.textboxEmptytext" :required="dataColumn[3].formColumnRequired"
-                   :readonly="dataColumn[2].formColumnShowType === 'readonly'?true:false"
-      ></hr-textarea>
+      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
+                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
+                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
 
-      <hr-file-upload></hr-file-upload>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
+      <hr-text-box :title="dataColumn[1].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[1].columnId]"
+                   :is-type="getTextBolxCheck(1)" :required="dataColumn[1].formColumnRequired"
+                   :readonly="dataColumn[1].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[1].columnTypeDetail.textboxEmptytext"></hr-text-box>
+
+
+
     </group>
     <div v-transfer-dom>
       <loading :show="show1" :text="text1"></loading>
     </div>
-    <div class="bottomFixed" style="margin-bottom:  50px ;width: 98%">
+   <!-- <div class="bottomFixed" style="margin-bottom:  50px ;width: 98%">
       <x-button type="primary"   @click.native="submitForm">提交</x-button>
-    </div>
+    </div>-->
   </div>
 </template>
 
@@ -71,7 +58,7 @@
   import HrFileUpload  from '@/components/myerh_form/hrFileUpload.vue'
   import HrTextBox  from '@/components/myerh_form/hrTextBox.vue'
   export default {
-    name: "testCardForm",
+    name: "testCardForm2",
     components: {
       HrDateTime,
       XInput,
