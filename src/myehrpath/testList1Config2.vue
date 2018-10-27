@@ -53,8 +53,13 @@
           this.loadData(prows,pager,filterParam,orderByParam);
         },
         onRowButtonClick(buttonId,row){
+
           //点击每个按钮具体实现转交上层组件实现
-          this.onRowClick(row);
+          if(buttonId === 1) { //编辑按钮，默认跳转
+            this.gotoMyehrPath('/myehrpath/testList1Config2Edit',{isInit:true,row:row},'编辑');
+          }
+
+        //  this.onRowClick(row);
         },
         onRowClick(row){
           console.log("打开审批")
@@ -131,7 +136,7 @@
               {columnId:'EMPVEMPLOYEE_JOBID_DICTNAME',columnName:'职务'}
             ],
           pager:{offset:0,limit:10},
-          right_buttons:[{buttonName:'保存',icon:'fas fa-edit',buttonId:113,area:"right"},{buttonName:'删除',icon:'fas fa-edit',buttonId:113,area:"right"}],
+          right_buttons:[{buttonName:'修改',icon:'fas fa-edit',buttonId:1,area:"right"},{buttonName:'删除',icon:'fas fa-edit',buttonId:113,area:"right"}],
           rows: [],
           totalData:-1,
           isHowTopQuery:false,
