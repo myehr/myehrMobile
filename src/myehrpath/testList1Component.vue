@@ -59,14 +59,17 @@
           this.onRowClick(row);
         },
         onRowClick(row){
-          console.log("打开审批")
+        /*  console.log("打开审批")
           var url = "/myehr/form/toForm.action?formId="+row.formId+"&key="+row.procDefKey+"&isInit=true&taskId="+row.taskId+"&procInsId="+row.procInsId+"&businessId="+row.businessId+'&formType=APP';
           console.log(url);
           //var url =  "";
           let pageTitle = row.title;
-          var query = {pageTitle:pageTitle,title:this.title,url:url};
-          this.$router.push({path:'/myehrpath/iframe',query:query})
+          var query = {pageTitle:pageTitle,title:this.title,url:url};*/
+          var formParam = {formId:row.formId,key:row.procDefKey,isInit:true,orderBy:'Humanresources',taskId:row.taskId,businessId:row.businessId,procInsId:row.procInsId};
+        //  this.$router.push({path:'/myehrpath/iframe',query:query})
 
+
+          this.gotoMyehrPath('/myehrpath/testCardList',formParam,'流程审批');
         },
         loadData(initRows,pager){
           console.log(pager)

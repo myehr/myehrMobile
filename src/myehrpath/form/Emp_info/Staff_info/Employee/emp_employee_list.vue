@@ -41,6 +41,7 @@
         this.loadData(prows, pager, filterParam, orderByParam)
       },
       onRowButtonClick (buttonId, row) {
+
       },
       onRowClick (row) {
       },
@@ -114,7 +115,7 @@
         right_buttons: [
                     {buttonName: '在职背景', icon: 'fas fa-edit', buttonId: 2414}
         ],
-        bottom_buttons: [
+          bottom_buttons: [
                     {buttonName: '预览', icon: 'fas fa-edit', buttonId: 3032}
         ],
         slid_buttons: [

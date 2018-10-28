@@ -112,11 +112,11 @@
     data (){
       return {
         dataColumn:[
-          {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPVEMPLOYEE_EMPCODE',columnName:'工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPVEMPLOYEE_ENAME',columnName:'英文名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPVEMPLOYEE_COMPID_DICTNAME',columnName:'所在公司',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPVEMPLOYEE_CERTNO',columnName:'身份证号',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPVEMPLOYEE_JOBID_DICTNAME',columnName:'职务',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+          {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'PERSONNELASSIGNMENT_XTYPE_DICTNAME',columnName:'类型',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
+          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'PERSONNELASSIGNMENT_XDEPID_DICTNAME',columnName:'现属支行/部门',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'PERSONNELASSIGNMENT_NJOBID_DICTNAME',columnName:'现岗位',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
+          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'PERSONNELASSIGNMENT_NDEPID_DICTNAME',columnName:'调配部门',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'PERSONNELASSIGNMENT_NJOBID_DICTNAME',columnName:'调配岗位',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
         ],
         be2333: function (value) {
           return {

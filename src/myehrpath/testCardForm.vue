@@ -125,7 +125,7 @@
         if(isInit == true) {
           //需要初始化数据
           this.$axios.post('/myehr/form/cardformInitData.action',
-            {formId:'3886',pkId:'',"containerParam":{},"paramsMap":{},"requestParam":{"EMPEMPLOYEE_EMPID":"258"}}
+            {formId:this.formId,pkId:'',"containerParam":{},"paramsMap":{},"requestParam":{"EMPEMPLOYEE_EMPID":"258"}}
           )
             .then(function (response) {
               if(response.data) {
@@ -153,12 +153,13 @@
     ,
     data (){
       return {
+        formId:3886,
         dataColumn:[
             {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_CNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
-          ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
+           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
+           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
           ],
         be2333: function (value) {
           return {
@@ -240,5 +241,10 @@
 </script>
 
 <style scoped>
-
+  .bottomFixed{
+    position: fixed;
+    z-index: 1000;
+    left:0px; bottom:0px; width:100%;
+    margin: 0 auto;
+  }
 </style>

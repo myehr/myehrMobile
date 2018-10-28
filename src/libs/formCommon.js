@@ -29,6 +29,38 @@ export function setDefaultValue(i,formthis,sessionData) {
     formthis.formData[tempColumn.columnId] = (eval("formthis." + formValue + "('" + tempColumn.columnId + "');"));
   }
 }
+
+/**
+ * 获取表单初始化过滤参数
+ * @param queryParam 路由跳转传入参数
+ * @param compParam  组件传入参数
+ */
+export function getInitFilterParam(queryParam,compParam,filterConfig) {
+
+ // 0: {id: "", text: "请选择..."}
+//  1: {id: "session", text: "会话数据"}
+ // 2: {id: "parameter", text: "参数数据"}
+ // 3: {id: "constant", text: "常量"}
+ // 4: {id: "initFun", text: "自定义初始化方案"}
+ // 5: {id: "customParam", text: "容器参数"}
+ // 6: {id: "urlParam", text: "url参数"
+
+  //合并对象
+  Object.assign(queryParam, compParam);
+  var result = {};
+  if(filterConfig!=null &&filterConfig.length > 0 ) {
+    for(var i=0; i<filterConfig.length; i++) {
+      if(filterConfig[i].paramType === 'parameter') {
+        if(queryParam[filterConfig[i].paramValue] != null ) {
+          result[filterConfig[i].paramName] = queryParam[filterConfig[i].paramValue];
+        }
+      }
+    }
+  }else {
+    return {};
+  }
+  return result;
+}
 export function dateFormat(date,format) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1

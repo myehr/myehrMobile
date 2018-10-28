@@ -18,7 +18,10 @@
       components: {
         List1Component
       },created() {
+        this.requestParam = {BUSINESSID:282};
         this.loadData(null,null,null,null);
+      },props:{
+        initParams:{}
       },
       watch: {
         screenWidth (val) {
@@ -105,7 +108,7 @@
             return ;
           }
           this.$axios.post('/myehr/form/cardformInitData.action',
-            {"order":"asc","offset":0,"limit":10,"containerParam":{},"paramsMap":{},"requestParam":{"ORGVORGANIZATION_ORGCODE":""},"filter":{"EMPVEMPLOYEE_EMPSTATUS":"","EMPVEMPLOYEE_EMPCODE":"","EMPVEMPLOYEE_CNAME":""},"userIds":null,"formId":"2131","isView":null,"heightGrade":[]}
+            {"order":"asc","offset":0,"limit":10,"containerParam":{},"paramsMap":{},"requestParam":this.requestParam,"filter":{"EMPVEMPLOYEE_EMPSTATUS":"","EMPVEMPLOYEE_EMPCODE":"","EMPVEMPLOYEE_CNAME":""},"userIds":null,"formId":this.formId,"isView":null,"heightGrade":[]}
             )
             .then(function (response) {
               console.log(response)
@@ -125,21 +128,23 @@
 
       data () {
         return {
+          formId:4089,
           orderByParam:{},
           filterParams:{},
           orderByColumn:[  ],
           filterColumnDatas:[ ],
           screenWidth: document.body.clientWidth,
-          standDataColumn:{title:'EMPVEMPLOYEE_CNAME',imgUrl:null},
-          showRowColumn:[{columnId:'EMPVEMPLOYEE_EMPCODE',columnName:'工号'},{columnId:'EMPVEMPLOYEE_ENAME',columnName:'英文名'},{columnId:'EMPVEMPLOYEE_COMPID_DICTNAME',columnName:'所在公司'},
-              {columnId:'EMPVEMPLOYEE_CERTNO',columnName:'身份证号'},
-              {columnId:'EMPVEMPLOYEE_JOBID_DICTNAME',columnName:'职务'}
+          standDataColumn:{title:'PERSONNELASSIGNMENT_EMPID_DICTNAME',imgUrl:null},
+          showRowColumn:[{columnId:'PERSONNELASSIGNMENT_XTYPE_DICTNAME',columnName:'类型'},{columnId:'PERSONNELASSIGNMENT_XDEPID_DICTNAME',columnName:'现属支行/部门'},{columnId:'PERSONNELASSIGNMENT_NJOBID_DICTNAME',columnName:'现岗位'},
+              {columnId:'PERSONNELASSIGNMENT_NDEPID_DICTNAME',columnName:'调配部门'},
+              {columnId:'PERSONNELASSIGNMENT_NJOBID_DICTNAME',columnName:'调配岗位'}
             ],
           pager:{offset:0,limit:10},
           right_buttons:[{buttonName:'修改',icon:'fas fa-edit',buttonId:1,area:"right"},{buttonName:'删除',icon:'fas fa-edit',buttonId:113,area:"right"}],
           rows: [],
           totalData:-1,
           isHowTopQuery:false,
+          requestParam:{}
           }
         }
     }

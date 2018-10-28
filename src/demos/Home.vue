@@ -111,7 +111,6 @@ export default {
     Swiper,
     SwiperItem,
   },created() {
-
     let username = getCookie('username')
     let password =  getCookie('password')
     console.log(username+password)
@@ -156,7 +155,7 @@ export default {
   },
   methods:{
     gotomyehrcardlist(){
-      this.gotoMyehrPath('/myehrpath/testCardList.vue',null,'卡列演示');
+      this.gotoMyehrPath('/myehrpath/testCardList.vue',{empcode:'123456'},'卡列演示');
     },
     testlist(){
       var param = {keepAlive:true};
@@ -166,6 +165,7 @@ export default {
       this.gotoMyehrPath('/myehrpath/form/Emp_info/Staff_info/Employee/emp_employee_list.vue',param,'测试列表',true);
     },
     gotoSwiperDetail(item){
+      alert(formType1);
         console.log('轮播点击回调');
 
     },
