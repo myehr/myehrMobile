@@ -18,39 +18,20 @@
                      :dataList="checkListDatas" isMutiple="false" :readonly="dataColumn[2].formColumnShowType === 'readonly'?true:false"
                      :required="dataColumn[2].formColumnRequired" ></hr-check-list>
 
+      <hr-combo-box :title="dataColumn[5].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[5].columnId]"
+                    :readonly="dataColumn[5].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[5].columnTypeDetail.textboxEmptytext"
+                    :is-type="getTextBolxCheck(5)" :required="dataColumn[5].formColumnRequired" :dataList="dictValues[dataColumn[5].columnTypeDetail.dictTypeCode]"></hr-combo-box>
+
       <hr-date-time :title="dataColumn[3].columnName"  @onValidChange="onValidChange"  v-model="formData[dataColumn[3].columnId]" :required="dataColumn[3].formColumnRequired"
       :format="dataColumn[3].columnTypeDetail.datepickerFormat"
       ></hr-date-time>
 
-      <hr-textarea :title="dataColumn[4].columnName" :placeholder="dataColumn[4].columnTypeDetail.textboxEmptytext" :required="dataColumn[3].formColumnRequired"
-                   :readonly="dataColumn[2].formColumnShowType === 'readonly'?true:false"
+      <hr-textarea :title="dataColumn[4].columnName" :placeholder="dataColumn[4].columnTypeDetail.textboxEmptytext" :required="dataColumn[4].formColumnRequired"
+                   :readonly="dataColumn[4].formColumnShowType === 'readonly'?true:false"
       ></hr-textarea>
 
       <hr-file-upload></hr-file-upload>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
-      <hr-text-box :title="dataColumn[0].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[0].columnId]"
-                   :readonly="dataColumn[0].formColumnShowType == 'readonly'?true:false" :placeholder="dataColumn[0].columnTypeDetail.textboxEmptytext"
-                   :is-type="getTextBolxCheck(0)" :required="dataColumn[0].formColumnRequired" ></hr-text-box>
+
     </group>
     <div v-transfer-dom>
       <loading :show="show1" :text="text1"></loading>
@@ -70,6 +51,7 @@
   import HrTextarea  from '@/components/myerh_form/hrTextarea.vue'
   import HrFileUpload  from '@/components/myerh_form/hrFileUpload.vue'
   import HrTextBox  from '@/components/myerh_form/hrTextBox.vue'
+  import HrComboBox from '@/components/myerh_form/hrComboBox.vue'
   export default {
     name: "testCardForm",
     components: {
@@ -87,7 +69,8 @@
       HrTextarea,
       HrFileUpload,
       HrTextBox,
-      XButton
+      XButton,
+      HrComboBox
     },watch:{
       checkval:function(n,o){
         console.log(n+'  外面值')
@@ -98,6 +81,17 @@
       }
     },
     methods:{
+      getAllDictData(){
+       // http://116.62.243.28:9876/myehr/dict/getDictDatasAll.action?formId=677
+        this.$axios.post('/myehr/dict/getDictDatasAll.action?formId='+this.formId)
+          .then(function (response) {
+            this.dictValues = response.data;
+            console.log(response)
+          }.bind(this))
+          .catch(function (error) {
+            console.log(error);
+          });
+      },
       submitForm(){
 
       },
@@ -119,6 +113,7 @@
       }
     },
     created(){
+        this.getAllDictData();
         let tempData = {};
         let isInit = this.paramData.isInit;
         isInit = true;
@@ -160,6 +155,8 @@
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
+           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_GENDER',columnName:'性别',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{dictTypeCode:'dict|emp_SEX',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
+
           ],
         be2333: function (value) {
           return {
@@ -168,6 +165,7 @@
           }
         },
         formData:null,
+        dictValues:null,
         checkValue:true,
         defaultCheckValue:true,
         paramData:this.$route.query, //页面请求参数
