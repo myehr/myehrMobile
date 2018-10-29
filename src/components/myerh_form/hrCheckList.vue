@@ -157,7 +157,7 @@
         this.$emit('onValidChange',newVal);
       },
       selectValue(n,o){
-        console.log(o)
+        //console.log(o)
       },
       retDataChckList (newVal,oldVal) {
 
@@ -183,7 +183,7 @@
             }
           }
         }
-        console.log('IIIIIIIIIIIIIII'+retValue);
+      //  console.log('IIIIIIIIIIIIIII'+retValue);
         this.$emit('input',  retValue.toString());
       }
     },props:{

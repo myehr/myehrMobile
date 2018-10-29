@@ -20,7 +20,7 @@
 
       <hr-combo-box :title="dataColumn[5].columnName" @onValidChange="onValidChange" v-model="formData[dataColumn[5].columnId]"
                     :readonly="dataColumn[5].formColumnShowType === 'readonly'?true:false" :placeholder="dataColumn[5].columnTypeDetail.textboxEmptytext"
-                    :is-type="getTextBolxCheck(5)" :required="dataColumn[5].formColumnRequired" :dataList="dictValues[dataColumn[5].columnTypeDetail.dictTypeCode]"></hr-combo-box>
+                    :is-type="getTextBolxCheck(5)" :required="dataColumn[5].formColumnRequired" v-bind:data="dictValues[dataColumn[5].columnTypeDetail.dictTypeCode]"></hr-combo-box>
 
       <hr-date-time :title="dataColumn[3].columnName"  @onValidChange="onValidChange"  v-model="formData[dataColumn[3].columnId]" :required="dataColumn[3].formColumnRequired"
       :format="dataColumn[3].columnTypeDetail.datepickerFormat"
@@ -73,11 +73,11 @@
       HrComboBox
     },watch:{
       checkval:function(n,o){
-        console.log(n+'  外面值')
+
       },datevalue(n,o){
-        console.log(n+'  外面值')
+
       },formData(o,n){
-        console.log(o)
+
       }
     },
     methods:{
@@ -86,17 +86,17 @@
         this.$axios.post('/myehr/dict/getDictDatasAll.action?formId='+this.formId)
           .then(function (response) {
             this.dictValues = response.data;
-            console.log(response)
+
           }.bind(this))
           .catch(function (error) {
-            console.log(error);
+
           });
       },
       submitForm(){
 
       },
       onValidChange:function (value) {
-        console.log("验证结果："+value)
+
         this.checkValue = value;
       },initdata:function (columnId) {
         return "初始化函数的值";
@@ -128,10 +128,10 @@
                   this.formData = response.data.rows[0];
                 }
               }
-              console.log(response)
+
             }.bind(this))
             .catch(function (error) {
-              console.log(error);
+
             });
 
         }else {
@@ -150,12 +150,12 @@
       return {
         formId:3886,
         dataColumn:[
-            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
+            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_CNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
             ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
-           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_GENDER',columnName:'性别',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{dictTypeCode:'dict|emp_SEX',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
+           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_GENDER',columnName:'性别',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{dictTypeCode:'dict|CHILDSTATUS',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
 
           ],
         be2333: function (value) {
@@ -165,7 +165,7 @@
           }
         },
         formData:null,
-        dictValues:null,
+        dictValues:{},
         checkValue:true,
         defaultCheckValue:true,
         paramData:this.$route.query, //页面请求参数

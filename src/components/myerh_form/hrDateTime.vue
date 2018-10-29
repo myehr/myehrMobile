@@ -80,7 +80,7 @@
           this.$emit('onValidChange',n);
         },
         currentValue(n,o){
-          console.log(n+"**********8888")
+
           if(this.required === true || this.required === 'true') {
             if(n == null ||n === '') {
               this.valid = false;
@@ -97,7 +97,7 @@
             }
           }
           this.currentValue = n;
-          console.log(n+"**********89999999")
+
           this.$emit('input', n);
         }
       }

@@ -68,7 +68,7 @@ export default {
 
 /* global config for group items */
 .vux-cell-value {
-  color: @cell-value-color;
+  color: @cell-label-color;
 }
 .vux-cell-placeholder {
   color: @cell-placeholder-color;

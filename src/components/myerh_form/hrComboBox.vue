@@ -1,7 +1,21 @@
 <template>
-  <div>
-      <popup-picker :title="title" @onValidChange="onValidChange" v-model="this.currentValue"  @on-show="onShow" :disabled="disabled" :placeholder="placeholder"
-                    :is-type="checkType" :required="required"  :data="dataList" :columns="1"></popup-picker>
+  <div class="vux-x-input weui-cell  weui-cell:before">
+    <div class="weui-cell__hd">
+      <label for="vux-x-input-uosjx" class="weui-label" style="width: 4em;">{{title}}</label>
+    </div>
+    <div class="weui-cell__bd weui-cell__primary" style="text-align: right"  v-if="readonly !== true">
+      <popup-picker  @onValidChange="onValidChange" v-model="currentValue"  @on-show="onShow" :disabled="readonly" :placeholder="placeholder"
+                    :is-type="checkType"   :data="dataList" :columns="1" showName="true"></popup-picker>
+    </div>
+
+    <div v-if="readonly === true" style="width:100%;text-align: right">
+        {{ readOnlyText }}
+    </div >
+
+    <div class="weui-cell__ft" v-if="readonly !== true">
+      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" :title="errorMessage" style="" v-if="!valid" v-on:click="showErrorMsg"></i>
+    </div>
+    <toast v-model="shoToaskMsg" type="text" :time="800" is-show-mask :text="errorMessage"  ></toast>
   </div>
 </template>
 
@@ -9,32 +23,51 @@
   import  PopupPicker from '@/components/popup-picker/index.vue'
   import  Picker from '@/components/picker/index.vue'
   import  Cell from '@/components/cell/index.vue'
+  import Toast from '@/components/toast/index.vue'
   export default {
     components: {
       PopupPicker,
       Picker,
-      Cell
+      Cell,
+      Toast
     },
     props: {
       title: {},
       value: {type: Object},
       required: {},
-      disabled: {},
+      readonly: {},
       placeholder: {},
       checkType: {},
-      dataList:[],
-      dictValues:[]//传入字典信息
+      data:[]
     },
     methods: {
       onShow () {
-        console.log(this.dictValues)
+      //  console.log(this.dataList)
       },
       onValidChange (n) {
         this.$emit('onValidChange', n)
+      },showErrorMsg(){
+        this.shoToaskMsg= true;
       }
     },
     created () {
-      this.currentValue = this.value
+      if(this.readonly === true) {
+        this.readOnlyText = '';
+        for(var i=0; i<this.data.length; i++) {
+          if(this.value === this.data[i].code) {
+            this.readOnlyText = this.data[i].name;
+          }
+        }
+        return ;
+      }
+      if(this.data) {
+        for(var i=0; i<this.data.length; i++) {
+          this.dataList.push({value:this.data[i].code,name:this.data[i].name})
+        }
+      }
+      if(this.value != null) {
+        this.currentValue = this.value.toString().split(',')
+      }
       if (this.required === true || this.required === 'true') {
         if (this.value == null || this.value === '' || this.value === undefined) {
           this.valid = false
@@ -55,18 +88,18 @@
             this.valid = true
           }
         }
-        this.$emit('input', n)
+        this.$emit('input', n != null?n.toString():null)
       }
     },
     data () {
       return {
-        data () {
-          return {
-            currentValue: null,
-            valid: true,
-            dictValue:{}
-          }
-        }
+        currentValue: null,
+        valid: true,
+        dictValue:{},
+        dataList:[],
+        shoToaskMsg:false,
+        errorMessage:'必选项',
+        readOnlyText:null
       }
     }
   }
