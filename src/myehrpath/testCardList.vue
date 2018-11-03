@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="box_listcard">
       <test-card-form2 v-model="formData" :params="cardParams"></test-card-form2>
       <div>
         <cell
@@ -19,10 +19,6 @@
           @click.native="isShow2 = !isShow2"></cell>
         <test-list1-config2  :contentHeight="contentHeight2" :params="listParams2"></test-list1-config2>
       </div>
-
-
-
-
     </div>
 </template>
 
@@ -76,5 +72,7 @@
 </script>
 
 <style scoped>
-
+  .box_listcard{
+    margin-bottom: 50px;
+  }
 </style>

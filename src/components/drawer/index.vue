@@ -3,8 +3,7 @@
 */
 <template>
   <div class="vux-drawer">
-    <div :style="{transform: `translate3d(${translateX}px, 0, 0)`}"
-    class="vux-drawer-body">
+    <div class="vux-drawer-body">
       <slot></slot>
       <div class="drawer-mask" :class="show ? 'vux-drawer-active' : ''" @click="hideMask"></div>
     </div>
@@ -41,6 +40,10 @@ export default {
       drawerWidth: 0,
       translateX: 0
     }
+  },
+  created(){
+    
+
   },
   watch: {
     show: function () {
