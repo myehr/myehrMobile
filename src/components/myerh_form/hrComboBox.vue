@@ -51,6 +51,10 @@
       }
     },
     created () {
+      console.log('下来数据')
+      console.log('下来数据')
+      console.log(this.data)
+
       if(this.readonly === true) {
         this.readOnlyText = '';
         for(var i=0; i<this.data.length; i++) {

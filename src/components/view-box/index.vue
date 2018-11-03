@@ -1,7 +1,7 @@
 <template>
-  <div class="weui-tab">
+  <div class="weui-tab" style="overflow: hidden">
     <slot name="header"></slot>
-    <div class="weui-tab__panel vux-fix-safari-overflow-scrolling" ref="viewBoxBody" id="vux_view_box_body" :style='{paddingTop: bodyPaddingTop, paddingBottom: bodyPaddingBottom}'>
+    <div class="weui-tab__panel vux-fix-safari-overflow-scrolling" ref="viewBoxBody" id="vux_view_box_body" :style='{marginTop: bodyPaddingTop}' style="height:88%;padding-bottom:46px;">
       <slot></slot>
     </div>
     <slot name="bottom"></slot>
