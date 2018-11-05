@@ -23,7 +23,6 @@
         rows(){
           this.$nextTick(function(){
             /*现在数据已经渲染完毕*/
-            console.log('LLLLLLLLLLLLLLLLLLLLLLLLL')
              const that = this
               window.onresize = () => {
                 return (() => {
@@ -38,7 +37,7 @@
         }
       },
       mounted : function() {
-        console.log('111111111111111111')
+
 
       },
       name: "testList1Component",
@@ -59,17 +58,8 @@
           this.onRowClick(row);
         },
         onRowClick(row){
-        /*  console.log("打开审批")
-          var url = "/myehr/form/toForm.action?formId="+row.formId+"&key="+row.procDefKey+"&isInit=true&taskId="+row.taskId+"&procInsId="+row.procInsId+"&businessId="+row.businessId+'&formType=APP';
-          console.log(url);
-          //var url =  "";
-          let pageTitle = row.title;
-          var query = {pageTitle:pageTitle,title:this.title,url:url};*/
           var formParam = {formId:row.formId,key:row.procDefKey,isInit:true,orderBy:'Humanresources',taskId:row.taskId,businessId:row.businessId,procInsId:row.procInsId};
-        //  this.$router.push({path:'/myehrpath/iframe',query:query})
-
-
-          this.gotoMyehrPath('/myehrpath/testCardList',formParam,'流程审批');
+          this.gotoMyehrPath(row.path,formParam,'流程审批');
         },
         loadData(initRows,pager){
           console.log(pager)
@@ -83,7 +73,7 @@
           if(this.totalData != -1 && this.rows.length >= this.totalData) {
             return ;
           }
-          this.$axios.post('/myehr/act/task/todo.action?flowType=7', {"order":"asc","offset":offset,"limit":limit,"paramsMap":{"userId":"1","flowCode":"7"},"requestParam":{},"filter":{"searchValue":""},"formId":"1041","isView":null})
+          this.$axios.post('/myehr/act/task/todoForMobile.action', {"order":"asc","offset":offset,"limit":limit,"paramsMap":{"userId":"1","flowCode":"7"},"requestParam":{},"filter":{"searchValue":""},"formId":"1041","isView":null})
             .then(function (response) {
               console.log(response)
               if(initRows == null) {

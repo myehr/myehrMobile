@@ -1,10 +1,12 @@
 <template>
-  <div class="vux-x-input weui-cell  weui-cell:before">
-      <div class="weui-cell__hd">
+  <div class="vux-x-input weui-cell  weui-cell:before" style="padding-left: 0">
+      <div class="weui-cell__hd" v-if="title===''">
         <label for="vux-x-input-uosjx" class="weui-label" style="width: 4em;">{{title}}</label>
       </div>
       <div class="weui-cell__bd weui-cell__primary" style="text-align: left">
-        <div class='hrtextarea' contenteditable placeholder='请输入文字' ref="mybox"   v-on:focus="onFocus" v-on:blur="getBlur" ></div>
+        <!--<div class='hrtextarea' contenteditable placeholder='请输入文字' ref="mybox"   v-on:focus="onFocus" v-on:blur="getBlur" ></div>-->
+        <x-textarea  :title="title" @onValidChange="onValidChange" v-model="currentValue"  :readonly="readonly" :placeholder="placeholder"
+                     :is-type="checkType" :required="required" v-on:focus="onFocus" v-on:blur="getBlur" ></x-textarea>
       </div>
     <div class="weui-cell__ft">
       <i class="weui-icon weui_icon_clear weui-icon-clear" v-if="showClean" v-on v-on:click="cleanData"></i>
@@ -17,9 +19,11 @@
 <script>
   import  {getConstant} from  '@/libs/constant.js';
   import Toast from '@/components/toast/index.vue'
+  import XTextarea from '@/components/x-textarea/index.vue'
     export default {
         name: "hrTextarea",
         components: {
+          XTextarea,
           Toast
         },
         props:{
@@ -44,7 +48,11 @@
             this.showToaskMsg= true;
           }
         },created(){
-          this.currentValue = this.value;
+          if(this.value!=''&&this.value!=null){
+            this.currentValue = this.value
+          }else{
+            this.currentValue = ' '
+          }
           if(this.required === true || this.required === 'true') {
             if(this.value == null ||this.value === '') {
               this.valid = false;

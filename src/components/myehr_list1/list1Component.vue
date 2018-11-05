@@ -1,6 +1,6 @@
 <template>
   <div class="container ">
-    <search  v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
+    <search  v-model="commonFilterParam" v-if="isShowTopQuery==true" :auto-fixed="false"></search>
     <div slot="content" class="card-demo-flex">
       <div class="vux-1px-r"  v-on:click="showOrderByList= !showOrderByList"  v-if="listOrderByColumn.length>0">
         <span>{{ listOrderByCheckName==null?'排序字段':listOrderByCheckName  }}</span>
@@ -138,6 +138,17 @@
       },
       'commonFilterParam': function (newVal, oldVal) {
         this.blurQuery()
+      },
+      winHeight(n,o){
+        if(n === '0px') {
+          if(this.initIsShowTopQuery === true){
+            this.isShowTopQuery = false;
+          }
+        }else {
+          if(this.initIsShowTopQuery === true){
+            this.isShowTopQuery = true;
+          }
+        }
       }
     },
     methods: {
@@ -191,9 +202,6 @@
           console.log(response)
           var data = response.data[0]
           if (data != null) {
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-            console.log(data)
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
             return data
             //return [{id: '1', name: '张三'}, {id: '2', name: '李四'}, {id: '3', name: '张三3'}, {id: '4', name: '李四4'}, {id: '5', name: '张三5'}, {id: '6', name: '李四6'}, {id: '7', name: '李四6'}, {id: '8', name: '李四6'}]
           } else {
@@ -321,7 +329,7 @@
       bottom_buttons: {
 
       },
-      isHowTopQuery: {},
+      isShowTopQuery: {},
       filterColumnDatas: {
         type: Array,
         default: function () {
@@ -363,10 +371,12 @@
         listOrderByCheck: null,
         orderBy: 'asc',
         orderByParam: null,
-        showOrderByList: false
+        showOrderByList: false,
+        initIsShowTopQuery:false,
       }
     },
     created () {
+      this.initIsShowTopQuery = this.isShowTopQuery;
       if (this.orderByColumn) {
         for (var i = 0; i < this.orderByColumn.length; i++) {
           if (this.orderByColumn[i].type == 'default') {

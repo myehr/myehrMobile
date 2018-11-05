@@ -20,6 +20,12 @@
         <test-list1-config2  :contentHeight="contentHeight1" :params="listParams1" ></test-list1-config2>
       </div>
       <div>
+
+        <div>
+          <hrcell @onShowChange="onShowChange2" :buttons="buttons1"></hrcell>
+          <test-list1-config2  :contentHeight="contentHeight2" :params="listParams2"></test-list1-config2>
+        </div>
+
         <div  v-on:click="isShow2 = !isShow2"  data-v-1548e98c="" class="weui-cell vux-tap-active weui-cell_access vux-cell-no-border-intent">
           <div  class="weui-cell__hd"></div> <div class="vux-cell-bd vux-cell-primary">
           <p>
@@ -38,10 +44,13 @@
 <script>
   import testList1Config2 from '@/myehrpath/testList1Config2.vue'
   import testCardForm2 from '@/myehrpath/testCardForm2.vue'
+  import hrcell from '@/components/myehr_common/hrcell.vue'
+
   import XButton from '@/components/x-button/index.vue'
   import { Group} from 'vux'
   export default {
         name: "testCardList",
+        components: {testList1Config2, testCardForm2,Group,hrcell},
         components: {testList1Config2, testCardForm2,Group,XButton},
         methods:{
           addNew1(){
@@ -54,6 +63,14 @@
         created(){
           this.inParams = this.$route.query;
           this.cardParams = this.inParams;
+        },methods:{
+            onShowChange2(isShow){
+              if(isShow === true) {
+                this.contentHeight2 = "300px";
+              }else {
+                this.contentHeight2 = "0px";
+              }
+            }
         },
         watch:{
           formData(n,o){
@@ -66,12 +83,6 @@
                 this.contentHeight1 = "300px";
             }else {
               this.contentHeight1 = "0px";
-            }
-          },isShow2(n,o){
-            if(n === true) {
-              this.contentHeight2 = "300px";
-            }else {
-              this.contentHeight2 = "0px";
             }
           }
         },
@@ -87,7 +98,9 @@
               inParams:null,
               //列表参数
               listParams1:null,
-              listParams2:null
+              listParams2:null,
+              //列表按钮
+              buttons1:[{buttonName:'修改',icon:'fas fa-edit',buttonId:1,area:"right"},{buttonName:'删除',icon:'fas fa-edit',buttonId:113,area:"right"}],
             }
         }
     }
