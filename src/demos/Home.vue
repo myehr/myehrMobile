@@ -3,12 +3,16 @@
 
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
 
-
+    <!-- 添加多tab菜单模块 -->
+    
+    <!-- 添加多tab 列表块 -->
     <group title="我的任务">
       <cell title="Live Demo222" link="/demo">
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
-
+       <cell title="asiasifaf" link="/demo">
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
 
       <!--<cell title="myEhr" link=""  v-on:click.native="gomyehr" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
@@ -113,6 +117,8 @@ export default {
     Swiper,
     SwiperItem,
   },created() {
+    let m = 6;
+    console.log(m.toString(2),'二进制转化');
     let username = getCookie('username')
     let password =  getCookie('password')
     console.log(username+password)

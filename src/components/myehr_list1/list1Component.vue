@@ -23,7 +23,7 @@
 
     </div>
     <scroller  @on-scroll-bottom="onScrollBottom" ref="scrollerBottom"  :scroll-bottom-offst="200" lock-x :height="getWindowHeight()" >
-      <div class="box2"  id="listscroller">
+      <div class="box2"  id="listscroller" style="padding-bottom:40px;">
         <!--<p v-for="i in bottomCount">placeholder {{i}}</p>-->
 
         <div v-for="row in rows" class="container">
@@ -90,11 +90,8 @@
     </div>
 
   </div>
-
-
-
 </template>
-<LoadMore></LoadMore>
+
 <script>
 
   import List1ItemComponent from './list1ItemComponent'
@@ -245,7 +242,9 @@
       getWindowHeight () {
       //  console.log('windheight:((((((((('+this.winHeight)
         if(this.winHeight == null) {
-          return window.innerHeight + 'px'
+          let height = document.documentElement.clientHeight - 53;
+          return height + 'px'
+          // return window.innerHeight + 'px'
         }else {
           return this.winHeight;
         }

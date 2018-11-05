@@ -43,145 +43,240 @@
 </template>
 
 <script>
-  import { XInput,Calendar, Group, XButton, Cell,CheckIcon,Checklist,XSwitch ,Datetime,PopupPicker} from 'vux'
-  import  { getSessionData } from '@/libs/cookieUtil.js'
-  import  { setDefaultValue,dateFormat } from '@/libs/formCommon.js'
-  import  hrCheckList from '@/components/myerh_form/hrCheckList.vue'
-  import HrDateTime from "../components/myerh_form/hrDateTime";
-  import HrTextarea  from '@/components/myerh_form/hrTextarea.vue'
-  import HrFileUpload  from '@/components/myerh_form/hrFileUpload.vue'
-  import HrTextBox  from '@/components/myerh_form/hrTextBox.vue'
-  import HrComboBox from '@/components/myerh_form/hrComboBox.vue'
-  export default {
-    name: "testCardForm",
-    components: {
-      HrDateTime,
-      XInput,
-      Group,
-      Cell,
-      CheckIcon,
-      Calendar,
-      Checklist,
-      XSwitch,
-      Datetime,
-      PopupPicker,
-      hrCheckList,
-      HrTextarea,
-      HrFileUpload,
-      HrTextBox,
-      XButton,
-      HrComboBox
-    },watch:{
-      checkval:function(n,o){
+import {
+  XInput,
+  Calendar,
+  Group,
+  XButton,
+  Cell,
+  CheckIcon,
+  Checklist,
+  XSwitch,
+  Datetime,
+  PopupPicker
+} from "vux";
+import { getSessionData } from "@/libs/cookieUtil.js";
+import { setDefaultValue, dateFormat } from "@/libs/formCommon.js";
+import hrCheckList from "@/components/myerh_form/hrCheckList.vue";
+import HrDateTime from "../components/myerh_form/hrDateTime";
+import HrTextarea from "@/components/myerh_form/hrTextarea.vue";
+import HrFileUpload from "@/components/myerh_form/hrFileUpload.vue";
+import HrTextBox from "@/components/myerh_form/hrTextBox.vue";
+import HrComboBox from "@/components/myerh_form/hrComboBox.vue";
+export default {
+  name: "testCardForm",
+  components: {
+    HrDateTime,
+    XInput,
+    Group,
+    Cell,
+    CheckIcon,
+    Calendar,
+    Checklist,
+    XSwitch,
+    Datetime,
+    PopupPicker,
+    hrCheckList,
 
-      },datevalue(n,o){
-
-      },formData(o,n){
-
-      }
-    },
-    methods:{
-      getAllDictData(){
-       // http://116.62.243.28:9876/myehr/dict/getDictDatasAll.action?formId=677
-        this.$axios.post('/myehr/dict/getDictDatasAll.action?formId='+this.formId)
-          .then(function (response) {
+    HrTextarea,
+    HrFileUpload,
+    HrTextBox,
+    XButton,
+    HrComboBox
+  },
+  watch: {
+    checkval: function(n, o) {},
+    datevalue(n, o) {},
+    formData(o, n) {}
+  },
+  methods: {
+    getAllDictData() {
+      // http://116.62.243.28:9876/myehr/dict/getDictDatasAll.action?formId=677
+      this.$axios
+        .post("/myehr/dict/getDictDatasAll.action?formId=" + this.formId)
+        .then(
+          function(response) {
             this.dictValues = response.data;
-
-          }.bind(this))
-          .catch(function (error) {
-
-          });
-      },
-      submitForm(){
-
-      },
-      onValidChange:function (value) {
-
-        this.checkValue = value;
-      },initdata:function (columnId) {
-        return "初始化函数的值";
-      },getTextBolxCheck(i){
-        var tempColumn = this.dataColumn[i];
-        if(tempColumn.columnTypeDetail.textboxCheckType !== 'fun') {
-          return tempColumn.columnTypeDetail.textboxCheckType;
-        }else {
-          return  'checkSelf'+i;
-        }
-      },setTextBoxDefaultValue(i) {
-        var formThis = this;
-        setDefaultValue(i,formThis,null);
+          }.bind(this)
+        )
+        .catch(function(error) {});
+    },
+    submitForm() {},
+    onValidChange: function(value) {
+      this.checkValue = value;
+    },
+    initdata: function(columnId) {
+      return "初始化函数的值";
+    },
+    getTextBolxCheck(i) {
+      var tempColumn = this.dataColumn[i];
+      if (tempColumn.columnTypeDetail.textboxCheckType !== "fun") {
+        return tempColumn.columnTypeDetail.textboxCheckType;
+      } else {
+        return "checkSelf" + i;
       }
     },
-    created(){
-        this.getAllDictData();
-        let tempData = {};
-        let isInit = this.paramData.isInit;
-        isInit = true;
-        if(isInit == true) {
-          //需要初始化数据
-          this.$axios.post('/myehr/form/cardformInitData.action',
-            {formId:this.formId,pkId:'',"containerParam":{},"paramsMap":{},"requestParam":{"EMPEMPLOYEE_EMPID":"258"}}
-          )
-            .then(function (response) {
-              if(response.data) {
-                if(response.data.rows[0]) {
-                  this.formData = response.data.rows[0];
-                }
+    setTextBoxDefaultValue(i) {
+      var formThis = this;
+      setDefaultValue(i, formThis, null);
+    }
+  },
+  created() {
+    this.getAllDictData();
+    let tempData = {};
+    let isInit = this.paramData.isInit;
+    isInit = true;
+    if (isInit == true) {
+      //需要初始化数据
+      this.$axios
+        .post("/myehr/form/cardformInitData.action", {
+          formId: this.formId,
+          pkId: "",
+          containerParam: {},
+          paramsMap: {},
+          requestParam: { EMPEMPLOYEE_EMPID: "258" }
+        })
+        .then(
+          function(response) {
+            if (response.data) {
+              if (response.data.rows[0]) {
+                this.formData = response.data.rows[0];
               }
-
-            }.bind(this))
-            .catch(function (error) {
-
-            });
-
-        }else {
-
-          //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
-          //1 如果某个字段初始值时从上一个页面传入参数
-          for(var i=0; i<this.dataColumn.length; i++){
-              //数据验证
-            this.setTextBoxDefaultValue(i);
-
-          }
+            }
+          }.bind(this)
+        )
+        .catch(function(error) {});
+    } else {
+      //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
+      //1 如果某个字段初始值时从上一个页面传入参数
+      for (var i = 0; i < this.dataColumn.length; i++) {
+        //数据验证
+        this.setTextBoxDefaultValue(i);
       }
     }
-    ,
-    data (){
-      return {
-        formId:3886,
-        dataColumn:[
-            {formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_EMPCODE',columnName:'员工工号',columnType:'1',formColumnRequired:'true',formColumnShowType:'readonly',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'空文本显示'}}
-            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_CNAME',columnName:'姓名',columnType:'1',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'email',textboxDataFromType:'initFun',textboxDataFromValue:'initdata',textboxEmptytext:'123'}}
-            ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPCONTRY',columnName:'国家',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'constant',textboxDataFromValue:'1',textboxEmptytext:''}}
-           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPBIRTHDAY',columnName:'出生日期',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{datepickerFormat:'yyyy-MM-dd HH:mm:ss',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:''}}
-           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'DESC',columnName:'说明',columnType:'6',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
-           ,{formGroupId:'',entityId:'EMP_EMPLOYEE_REG',columnId:'EMPEMPLOYEE_GENDER',columnName:'性别',columnType:'2',formColumnRequired:'true',formColumnShowType:'show',columnTypeDetail:{dictTypeCode:'dict|CHILDSTATUS',textboxCheckType:'',textboxDataFromType:'',textboxDataFromValue:'',textboxEmptytext:'多行文本'}}
-
-          ],
-        be2333: function (value) {
-          return {
-            valid: value === '2333',
-            msg: 'Must be 2333'
+  },
+  data() {
+    return {
+      formId: 3886,
+      dataColumn: [
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "EMPEMPLOYEE_EMPCODE",
+          columnName: "员工工号",
+          columnType: "1",
+          formColumnRequired: "true",
+          formColumnShowType: "readonly",
+          columnTypeDetail: {
+            textboxCheckType: "email",
+            textboxDataFromType: "",
+            textboxDataFromValue: "",
+            textboxEmptytext: "空文本显示"
           }
         },
-        formData:null,
-        dictValues:null,
-        checkValue:true,
-        defaultCheckValue:true,
-        paramData:this.$route.query, //页面请求参数
-        defaultDate:'TODAY',
-        checkListDatas: [ {code:'1',name:'张三'},{code:'2',name:'李四'}],
-        radioValue:'中国',
-        list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
-        checkval:'1,2',
-        datevalue:'2018-10-21'
-      }
-    }
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "EMPEMPLOYEE_CNAME",
+          columnName: "姓名",
+          columnType: "1",
+          formColumnRequired: "true",
+          formColumnShowType: "show",
+          columnTypeDetail: {
+            textboxCheckType: "email",
+            textboxDataFromType: "initFun",
+            textboxDataFromValue: "initdata",
+            textboxEmptytext: "123"
+          }
+        },
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "EMPCONTRY",
+          columnName: "国家",
+          columnType: "2",
+          formColumnRequired: "true",
+          formColumnShowType: "show",
+          columnTypeDetail: {
+            textboxCheckType: "",
+            textboxDataFromType: "constant",
+            textboxDataFromValue: "1",
+            textboxEmptytext: ""
+          }
+        },
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "EMPBIRTHDAY",
+          columnName: "出生日期",
+          columnType: "6",
+          formColumnRequired: "true",
+          formColumnShowType: "show",
+          columnTypeDetail: {
+            datepickerFormat: "yyyy-MM-dd HH:mm:ss",
+            textboxCheckType: "",
+            textboxDataFromType: "",
+            textboxDataFromValue: "",
+            textboxEmptytext: ""
+          }
+        },
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "DESC",
+          columnName: "说明",
+          columnType: "6",
+          formColumnRequired: "true",
+          formColumnShowType: "show",
+          columnTypeDetail: {
+            textboxCheckType: "",
+            textboxDataFromType: "",
+            textboxDataFromValue: "",
+            textboxEmptytext: "多行文本"
+          }
+        },
+        {
+          formGroupId: "",
+          entityId: "EMP_EMPLOYEE_REG",
+          columnId: "EMPEMPLOYEE_GENDER",
+          columnName: "性别",
+          columnType: "2",
+          formColumnRequired: "true",
+          formColumnShowType: "show",
+          columnTypeDetail: {
+            dictTypeCode: "dict|CHILDSTATUS",
+            textboxCheckType: "",
+            textboxDataFromType: "",
+            textboxDataFromValue: "",
+            textboxEmptytext: "多行文本"
+          }
+        }
+      ],
+      be2333: function(value) {
+        return {
+          valid: value === "2333",
+          msg: "Must be 2333"
+        };
+      },
+      formData: null,
+      dictValues: null,
+      checkValue: true,
+      defaultCheckValue: true,
+      paramData: this.$route.query, //页面请求参数
+      defaultDate: "TODAY",
+      checkListDatas: [
+        { code: "1", name: "张三" },
+        { code: "2", name: "李四" }
+      ],
+      radioValue: "中国",
+      list1: [["小米", "iPhone", "华为", "情怀", "三星", "其他", "不告诉你"]],
+      checkval: "1,2",
+      datevalue: "2018-10-21"
+    };
   }
+};
 
-
-
-  /**
+/**
    *
    *
    * 控件类型
@@ -239,10 +334,12 @@
 </script>
 
 <style scoped>
-  .bottomFixed{
-    position: fixed;
-    z-index: 1000;
-    left:0px; bottom:0px; width:100%;
-    margin: 0 auto;
-  }
+.bottomFixed {
+  position: fixed;
+  z-index: 1000;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  margin: 0 auto;
+}
 </style>

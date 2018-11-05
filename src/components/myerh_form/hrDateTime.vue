@@ -37,6 +37,10 @@
 
         },methods:{
           getFormat(){
+            if(this.format == null || this.format === '') {
+              this.format = 'YYYY-MM-DD'
+              return this.format
+            }
             this.format = this.format.replace('yyyy','YYYY')
             this.format = this.format.replace('dd','DD')
             this.format = this.format.replace(':ss','')

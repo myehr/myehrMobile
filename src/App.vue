@@ -94,6 +94,7 @@
 import { Scroller,Radio, Group, Cell, Badge, Drawer, Actionsheet, ButtonTab, ButtonTabItem, ViewBox, XHeader, Tabbar, TabbarItem, Loading, TransferDom } from 'vux'
 import { mapState, mapActions } from 'vuex'
 import VueRouter from 'vue-router'
+// import Scroller from 'myehrpath/scroll.vue'
 /*import BScroll from 'better-scroll'*/
 
 

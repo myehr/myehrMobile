@@ -1,13 +1,22 @@
 <template>
-    <div>
+    <div class="box_listcard">
       <test-card-form2 v-model="formData" :params="cardParams"></test-card-form2>
+
+
+
       <div>
-        <cell
-          title="列表1"
-          is-link
-          :border-intent="false"
-          :arrow-direction="isShow1 ? 'up' : 'down'"
-          @click.native="isShow1 = !isShow1"></cell>
+        <div  v-on:click="isShow1 = !isShow1"  data-v-1548e98c="" class="weui-cell vux-tap-active weui-cell_access vux-cell-no-border-intent">
+          <div  class="weui-cell__hd"></div> <div class="vux-cell-bd vux-cell-primary">
+          <p>
+            <label class="vux-label" style="margin-right: 20px" >列表1</label>
+            <x-button mini type="primary"   @click.native="addNew1" >添加</x-button>
+          </p>
+          <span class="vux-label-desc"></span></div>
+          <div  :class="{'vux-cell-arrow-down':!isShow1,'vux-cell-arrow-up':isShow1}"  class="weui-cell__ft vux-cell-arrow-transition ">  <!---->
+          </div>
+        </div>
+
+
         <test-list1-config2  :contentHeight="contentHeight1" :params="listParams1" ></test-list1-config2>
       </div>
       <div>
@@ -17,11 +26,18 @@
           <test-list1-config2  :contentHeight="contentHeight2" :params="listParams2"></test-list1-config2>
         </div>
 
+        <div  v-on:click="isShow2 = !isShow2"  data-v-1548e98c="" class="weui-cell vux-tap-active weui-cell_access vux-cell-no-border-intent">
+          <div  class="weui-cell__hd"></div> <div class="vux-cell-bd vux-cell-primary">
+          <p>
+            <label class="vux-label" style="margin-right: 20px" >列表2</label>
+            <x-button mini type="primary"   @click.native="addNew2" >添加</x-button>
+          </p>
+          <span class="vux-label-desc"></span></div>
+          <div  :class="{'vux-cell-arrow-down':!isShow2,'vux-cell-arrow-up':isShow2}"  class="weui-cell__ft vux-cell-arrow-transition ">  <!---->
+          </div>
+        </div>
+        <test-list1-config2  :contentHeight="contentHeight2" :params="listParams2"></test-list1-config2>
       </div>
-
-
-
-
     </div>
 </template>
 
@@ -30,10 +46,20 @@
   import testCardForm2 from '@/myehrpath/testCardForm2.vue'
   import hrcell from '@/components/myehr_common/hrcell.vue'
 
+  import XButton from '@/components/x-button/index.vue'
   import { Group} from 'vux'
   export default {
         name: "testCardList",
         components: {testList1Config2, testCardForm2,Group,hrcell},
+        components: {testList1Config2, testCardForm2,Group,XButton},
+        methods:{
+          addNew1(){
+            this.gotoMyehrPath('/myehrpath/testList1Config2Edit',{isInit:false,row:{}},'添加');
+          },
+          addNew2(){
+            this.gotoMyehrPath('/myehrpath/testList1Config2Edit',{isInit:false,row:{}},'添加');
+          }
+        },
         created(){
           this.inParams = this.$route.query;
           this.cardParams = this.inParams;
@@ -81,5 +107,7 @@
 </script>
 
 <style scoped>
-
+  .box_listcard{
+    margin-bottom: 50px;
+  }
 </style>
