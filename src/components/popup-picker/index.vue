@@ -80,8 +80,9 @@ export default {
     TransferDom
   },
   created () {
-    console.log(this.tempValue+'value');
-    console.log(this.data);
+    if(this.value == null) {
+      this.value = [];
+    }
     if (typeof this.show !== 'undefined') {
       this.showValue = this.show
     }
