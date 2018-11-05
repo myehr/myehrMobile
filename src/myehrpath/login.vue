@@ -58,18 +58,16 @@
                   setCookie('sessionParam',JSON.stringify({orgid:1,orgName:'测试'}),30);
                   console.log('**************************************')
                   var  sessionParam = getCookie('sessionParam')
-
-
                   this.$router.push({path:'/',query:{title:'登录成功',desc:'',icon:'success'}})
                 }else {
                   this.$router.push({path:'/myehrpath/mmsg',
                     query:{
-                      paht:'/myehrpath/login',
-                      buttonText:'重新登录',
-                      title:'登录失败',
-                      pageTitle:'提示',
-                      desc:response.data.desc,icon:'warn'
-                  }
+                          paht:'/myehrpath/login',
+                          buttonText:'重新登录',
+                          title:'登录失败',
+                          pageTitle:'提示',
+                          desc:response.data.desc,icon:'warn'
+                      }
                     }
                   )
                 }

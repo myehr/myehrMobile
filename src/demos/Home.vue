@@ -25,7 +25,9 @@
       <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>-->
-
+      <cell title="卡列配置演示" link=""  v-on:click.native="gotomyehrcardlistconfig" >
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
       <cell title="卡列演示" link=""  v-on:click.native="gotomyehrcardlist" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -154,6 +156,9 @@ export default {
     }
   },
   methods:{
+    gotomyehrcardlistconfig(){
+      this.gotoMyehrPath('/myehrpath/form/TP_management/Xiamenprocess/lc_personnel/LC_Branchstaffing2.vue',{empcode:'123456'},'卡列配置演示');
+    },
     gotomyehrcardlist(){
       this.gotoMyehrPath('/myehrpath/testCardList.vue',{empcode:'123456'},'卡列演示');
     },
