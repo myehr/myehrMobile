@@ -105,24 +105,25 @@
         return textVal.toString();
       },
       handleDataList (list,defaultVal) {
-        for(var i=0 ;i<list.length; i++){
-          var temp = list[i];
-          this.codeList.push(temp.code);
-          this.nameList.push(temp.name);
-        }
-        if(defaultVal) {
-          let arr = defaultVal.split(',')
+        if(list) {
           for(var i=0 ;i<list.length; i++){
             var temp = list[i];
-            for(var t=0; t<arr.length ; t++) {
-              if(temp.code === arr[t]) {
-                arr[t] = temp.name;
+            this.codeList.push(temp.code);
+            this.nameList.push(temp.name);
+          }
+          if(defaultVal) {
+            let arr = defaultVal.split(',')
+            for(var i=0 ;i<list.length; i++){
+              var temp = list[i];
+              for(var t=0; t<arr.length ; t++) {
+                if(temp.code === arr[t]) {
+                  arr[t] = temp.name;
+                }
               }
             }
+            this.retDataChckList = arr;
           }
-          this.retDataChckList = arr;
         }
-
       }
     },
     created(){

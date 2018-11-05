@@ -98,13 +98,11 @@
         this.formData = this.paramData.row;
 
       }else {
-
         //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
         //1 如果某个字段初始值时从上一个页面传入参数
         for(var i=0; i<this.dataColumn.length; i++){
           //数据验证
           this.setTextBoxDefaultValue(i);
-
         }
       }
     }
