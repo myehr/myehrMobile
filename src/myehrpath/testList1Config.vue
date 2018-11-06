@@ -1,7 +1,8 @@
 <template>
   <div class="testlist">
      <list1-component v-bind:rows="this.rows"   v-bind:standDataColumn="standDataColumn" v-bind:pager="pager" v-bind:showRowDataColumn="showRowColumn" v-bind:ibuttons="ibuttons"
-                      @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" @onBlurQuery="onBlurQuery" :orderByColumn="orderByColumn" :isHowTopQuery="isHowTopQuery"  :filterColumnDatas="filterColumnDatas">
+                      @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" @onBlurQuery="onBlurQuery" :orderByColumn="orderByColumn" :isHowTopQuery="isHowTopQuery"
+                      :filterColumnDatas="filterColumnDatas"  :winHeight="contentHeight" >
 
      </list1-component>
 
@@ -11,11 +12,14 @@
 
 <script>
   import  {List1Component} from 'vux'
+  import  { setDefaultValue,dateFormat ,getInitFilterParam} from '@/libs/formCommon.js'
     export default {
       components: {
         List1Component
       },created() {
         this.loadData(null,null,null,null);
+      },props:{
+        contentHeight:{}
       },
       watch: {
         screenWidth (val) {
@@ -40,6 +44,9 @@
       mounted : function() {
         console.log('111111111111111111')
 
+      },props:{
+        value: {},
+        compParams: {}
       },
       name: "testList1Config",
       methods :{
@@ -73,6 +80,11 @@
           loadData(null,null,old,this.orderByParam);
         },
         loadData(initRows,pager,filterParams,orderByParam){
+          if (filterParams == null) {
+            filterParams = {}
+          }
+         // Object.assign();
+          var result = getInitFilterParam(this.queryParam, this.compParams, this.filterConfig)
           this.filterParams = filterParams;
           console.log('排序数据')
           console.log(orderByParam)
@@ -133,6 +145,8 @@
           rows: [],
           totalData:-1,
           isHowTopQuery:false,
+          queryParam:this.$route.query, //页面请求参数
+          filterConfig: [{paramType: 'parameter', paramValue: 'EMPEMPLOYEE_EMPID', paramName: 'EMPEMPLOYEE_EMPID'}], // 过滤配置
           }
         }
     }

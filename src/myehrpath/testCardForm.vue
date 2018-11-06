@@ -126,7 +126,7 @@
         this.formData = this.value;
         this.getAllDictData();
         // 需要初始化数据
-        var result = getInitFilterParam(this.paramData, this.compParams, this.filterConfig)
+        var result = getInitFilterParam(this.queryParam, this.compParams, this.filterConfig)
         let isInit = result.isInit;
         isInit = true;
         if(isInit == true) {
@@ -183,7 +183,7 @@
         dictValues:null,
         checkValue:true,
         defaultCheckValue:true,
-        paramData:this.$route.query, //页面请求参数
+        queryParam:this.$route.query, //页面请求参数
         defaultDate:'TODAY',
         checkListDatas: [ {code:'1',name:'张三'},{code:'2',name:'李四'}],
         radioValue:'中国',
