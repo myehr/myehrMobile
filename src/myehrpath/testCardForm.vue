@@ -39,7 +39,7 @@
       <loading :show="show1" :text="text1"></loading>
     </div>
     <div class="bottomFixed" style="margin-bottom:  50px ;width: 98%">
-      <x-button type="primary"   @click.native="submitForm">提交</x-button>
+      <x-button type="primary"    @click.native="submitForm" >提交</x-button>
     </div>
   </div>
 </template>
@@ -78,8 +78,11 @@
 
       },datevalue(n,o){
 
-      },formData (o, n) {
-        this.$emit('input', n)
+      },formData:{
+        handler(newValue, oldValue) {
+          this.$emit('input', newValue)
+        },
+        deep: true
       }
     },props: {
       value: {},
@@ -98,7 +101,7 @@
           });
       },
       submitForm(){
-
+        this.buttonClickCallBack(1,{},'0000');
       },
       onValidChange:function (value) {
 
@@ -115,16 +118,15 @@
       },setTextBoxDefaultValue(i) {
         var formThis = this;
         setDefaultValue(i,formThis,null);
+      },buttonClickCallBack(buttonId,datas,retcode){
+        this.$emit('onButtonClickEnd',this.formId,buttonId,datas,retcode);
       }
     },
     created(){
         this.formData = this.value;
         this.getAllDictData();
         // 需要初始化数据
-
         var result = getInitFilterParam(this.paramData, this.compParams, this.filterConfig)
-      console.log( 'DDDDDDDDDDDDDDDDDDDDDDDDDD ')
-      console.log( result)
         let isInit = result.isInit;
         isInit = true;
         if(isInit == true) {
@@ -135,7 +137,9 @@
             .then(function (response) {
               if(response.data) {
                 if(response.data.rows[0]) {
+
                   this.formData = response.data.rows[0];
+                  console.log( this.formDatas)
                 }
               }
 

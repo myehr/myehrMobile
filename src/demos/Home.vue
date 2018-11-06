@@ -4,13 +4,13 @@
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
 
     <!-- 添加多tab菜单模块 -->
-    
+
     <!-- 添加多tab 列表块 -->
     <group title="我的任务">
       <cell title="Live Demo222" link="/demo">
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
-       <cell title="asiasifaf" link="/demo">
+       <cell title="组合表单演示" link=""  v-on:click.native="gotomyehrcardCombine" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
 
@@ -162,6 +162,9 @@ export default {
     }
   },
   methods:{
+    gotomyehrcardCombine(){
+      this.gotoMyehrPath('/myehrpath/combine/cardForm.vue',{empcode:'123456'},'组合表单');
+    },
     gotomyehrcardlistconfig(){
       this.gotoMyehrPath('/myehrpath/form/TP_management/Xiamenprocess/lc_personnel/LC_Branchstaffing2.vue',{empcode:'123456'},'卡列配置演示');
     },
