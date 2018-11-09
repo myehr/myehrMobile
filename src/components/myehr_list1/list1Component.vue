@@ -285,7 +285,12 @@
         this.$emit('onRowButtonClick', buttonId, row)
       },
       onRowClick (row) {
-        this.$emit('onRowClick', row)
+        let oldRow = this.currentRow;
+        this.$emit('onRowClick', row,oldRow)
+        this.currentRow = row;
+        //其它业务实现
+
+
       },
       hasFilterColumnDatas () {
         if (this.filterColumnDatas) {
@@ -354,6 +359,7 @@
         orderByParam: null,
         showOrderByList: false,
         initIsShowTopQuery:false,
+        currentRow:null
       }
     },
     created () {

@@ -5,8 +5,16 @@
     </div>
 
     <div>
-      <test-list1-config></test-list1-config>
+      <test-list1-config @onLoadData="onLoadDataList" @onRowChange="onRowChange" @onButtonClickEnd="onButtonClickEnd" :contentHeight="test" ></test-list1-config>
     </div>
+    <div>
+      <test-list1-config @onLoadData="onLoadDataList" @onRowChange="onRowChange" @onButtonClickEnd="onButtonClickEnd" :contentHeight="test" ></test-list1-config>
+    </div>
+
+    <div>
+      <test-list1-config @onLoadData="onLoadDataList" @onRowChange="onRowChange" @onButtonClickEnd="onButtonClickEnd" :contentHeight="test" ></test-list1-config>
+    </div>
+
 
   </div>
 </template>
@@ -30,6 +38,13 @@
 
         },onLoadData(formId,formData,param,retcode){ //数据加载回调方法
 
+        },onLoadDataList(formId,rows,param,retcode){ //列表加载回调方法
+          console.log(rows)
+        },onRowChange(n,o){
+          console.log('回调方法onRowChange')
+          console.log(n)
+        },onButtonClickEnd(targetFormId,buttonId,datas,retcode){ //行点击
+
         }
       },watch:{
         EMPEMPLOYEE_CNAME(n,o){
@@ -44,7 +59,8 @@
       },data(){
             return {
             params:{"EMPEMPLOYEE_EMPID":"258"},
-            formData:null
+            formData:null,
+              test:'300px'
           }
       }
     }

@@ -71,12 +71,6 @@
               j++
             }
           }
-
-        /*console.log(dictCode)
-        console.log(dictCode)
-        console.log(dictCode)
-        console.log(dictCode)
-*/
         this.getAllDictData()
       },
         methods :{
@@ -92,7 +86,6 @@
                 }else {
                   this.dictValue = {};
                 }
-                alert(this.dictValue);
               }.bind(this))
               .catch(function (error) {
 
@@ -100,7 +93,7 @@
           },
           getFormData(){
             var len = this.filterColumnValueData_temp.length;
-            for (var zi = 0; i < len; i ++) {
+            for (var i = 0; i < len; i ++) {
               var propertyName = this.filterColumnDatas[i].name;
 
               this.filterColumnValueData[propertyName] = this.filterColumnValueData_temp[i].value;

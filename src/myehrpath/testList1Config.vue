@@ -18,8 +18,6 @@
         List1Component
       },created() {
         this.loadData(null,null,null,null);
-      },props:{
-        contentHeight:{}
       },
       watch: {
         screenWidth (val) {
@@ -37,16 +35,22 @@
               }
             window.screenWidth = document.body.clientWidth
             that.screenWidth = window.screenWidth
-            console.log(window.onresize())
+
           })
+        },currentRow:{
+          handler(newValue, oldValue) {
+            this.$emit('onRowChange',newValue,oldValue)
+          },
+          deep: true
         }
       },
       mounted : function() {
-        console.log('111111111111111111')
+       // console.log('111111111111111111')
 
       },props:{
         value: {},
-        compParams: {}
+        compParams: {},
+        contentHeight:{}
       },
       name: "testList1Config",
       methods :{
@@ -61,26 +65,25 @@
           //点击每个按钮具体实现转交上层组件实现
           this.onRowClick(row);
         },
-        onRowClick(row){
+        onRowClick(row,oldRow){
           //固定写法，设置当前行变量
+          if(this.currentRow !== this.row) {
+            this.$emit('onRowChange',row,this.currentRow)
+          }
           this.currentRow = row;
-          //
-          console.log("打开审批")
           var url = "/myehr/form/toForm.action?formId="+row.formId+"&key="+row.procDefKey+"&isInit=true&taskId="+row.taskId+"&procInsId="+row.procInsId+"&businessId="+row.businessId+'&formType=APP';
-          console.log(url);
           //var url =  "";
           let pageTitle = row.title;
           var query = {pageTitle:pageTitle,title:this.title,url:url};
           this.$router.push({path:'/myehrpath/iframe',query:query})
 
-        },
-        onLoadData(){
-          //重新加载数据 带入条件 排序字段
+        },buttonClickCallBack(buttonId,datas,retcode){
+          this.$emit('onButtonClickEnd',this.formId,buttonId,datas,retcode);
         },
         onBlurQuery(value){
           var old = this.filterParams ;
           old[rtyuiop] = value;
-          loadData(null,null,old,this.orderByParam);
+          this.loadData(null,null,old,this.orderByParam);
         },
         loadData(initRows,pager,filterParams,orderByParam){
           if (filterParams == null) {
@@ -107,13 +110,18 @@
             {"order":"asc","offset":offset,"limit":limit,"containerParam":{},"paramsMap":{},"requestParam":{},"filter":filterParams,"userIds":null,"formId":this.formId,"isView":null,"heightGrade":[]}
             )
             .then(function (response) {
-              console.log(response)
-              if(initRows == null||startFlag == 0) {
-                this.rows = response.data.rows;
-                this.totalData = response.data.total;
+              if(response.data) {
+                if(initRows == null||startFlag == 0) {
+                  this.rows = response.data.rows;
+                  this.totalData = response.data.total;
+                }else {
+                  this.rows = initRows.concat(response.data.rows);
+                }
+                this.$emit('onLoadData', this.formId,this.rows,result,'9999')
               }else {
-                this.rows = initRows.concat(response.data.rows);
+                this.$emit('onLoadData', this.formId,this.rows,result,'9999')
               }
+
 
             }.bind(this))
             .catch(function (error) {
