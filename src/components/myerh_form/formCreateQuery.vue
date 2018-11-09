@@ -9,14 +9,18 @@
               </checker>
             </div>
           </group>
-          <group :title="temp.lableName"  v-if="temp.type === 'checkbox'">
 
-            <div class="sp" >
-              <checker type="checkbox" v-model="filterColumnValueData_temp[index].value" default-item-class="demo5-item" selected-item-class="demo5-item-selected"  >
-                <checker-item v-for="t in dictValue(temp.dictId)" :key="t.code" :value="t.code">{{t.name}}</checker-item>
+          <group :title="temp.lableName"  v-if="temp.type === 'checkbox'">
+            <div class="sp">
+              <checker v-model="filterColumnValueData_temp[index].value"  default-item-class="demo5-item" selected-item-class="demo5-item-selected" type="checkbox">
+                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp.name}}</checker-item>
               </checker>
             </div>
           </group>
+
+
+
+
           <group :title="temp.lableName" v-model="filterColumnValueData_temp[index].value"  v-if="temp.type === 'textbox'">
             <x-input name="email" placeholder="请输入姓名" ></x-input>
           </group>
