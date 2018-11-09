@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-        <test-card-form :compParams="params" v-model="formData" @onButtonClickEnd="onButtonClickEnd"></test-card-form>
+        <test-card-form :compParams="params" v-model="formData" @onButtonClickEnd="onButtonClickEnd" @onLoadData="onLoadData"></test-card-form>
     </div>
 
     <div>
@@ -26,8 +26,10 @@
           return this.formData!=null?this.formData.EMPEMPLOYEE_CNAME:null
         }
       },methods:{
-        onButtonClickEnd(formId,buttonId,datas,retcode){
-          alert(buttonId+'ddddd'+datas)
+        onButtonClickEnd(formId,buttonId,datas,retcode){ //按钮点击加载方法
+
+        },onLoadData(formId,formData,param,retcode){ //数据加载回调方法
+
         }
       },watch:{
         EMPEMPLOYEE_CNAME(n,o){

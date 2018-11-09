@@ -120,6 +120,25 @@
         setDefaultValue(i,formThis,null);
       },buttonClickCallBack(buttonId,datas,retcode){
         this.$emit('onButtonClickEnd',this.formId,buttonId,datas,retcode);
+      },loadData(result){
+        this.$axios.post('/myehr/form/cardformInitData.action',
+          {formId:this.formId,pkId:'',"containerParam":{},"paramsMap":{},"requestParam":result}
+        )
+          .then(function (response) {
+            if(response.data) {
+              if(response.data.rows[0]) {
+                this.formData = response.data.rows[0];
+                this.$emit('onLoadData', this.formId,this.formData,result,'0000')
+              }else {
+                this.$emit('onLoadData',this.formId,this.formData,result,'9999');
+              }
+            }else {
+               this.$emit('onLoadData',this.formId,this.formData,result,'9999');
+            }
+          }.bind(this))
+          .catch(function (error) {
+
+          });
       }
     },
     created(){
@@ -131,25 +150,8 @@
         isInit = true;
         if(isInit == true) {
           //需要初始化数据
-          this.$axios.post('/myehr/form/cardformInitData.action',
-            {formId:this.formId,pkId:'',"containerParam":{},"paramsMap":{},"requestParam":result}
-          )
-            .then(function (response) {
-              if(response.data) {
-                if(response.data.rows[0]) {
-
-                  this.formData = response.data.rows[0];
-                  console.log( this.formDatas)
-                }
-              }
-
-            }.bind(this))
-            .catch(function (error) {
-
-            });
-
+          this.loadData(result);
         }else {
-
           //不需要初始化数据  此时需要取各字段默认值 以下代码需要后台生成  具体各种情况的代码如下
           //1 如果某个字段初始值时从上一个页面传入参数
           for(var i=0; i<this.dataColumn.length; i++){

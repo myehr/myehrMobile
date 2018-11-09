@@ -2,7 +2,7 @@
   <div class="testlist">
      <list1-component v-bind:rows="this.rows"   v-bind:standDataColumn="standDataColumn" v-bind:pager="pager" v-bind:showRowDataColumn="showRowColumn" v-bind:ibuttons="ibuttons"
                       @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" @onBlurQuery="onBlurQuery" :orderByColumn="orderByColumn" :isHowTopQuery="isHowTopQuery"
-                      :filterColumnDatas="filterColumnDatas"  :winHeight="contentHeight" >
+                      :filterColumnDatas="filterColumnDatas"  :winHeight="contentHeight" :formId="formId" >
 
      </list1-component>
 
@@ -62,6 +62,9 @@
           this.onRowClick(row);
         },
         onRowClick(row){
+          //固定写法，设置当前行变量
+          this.currentRow = row;
+          //
           console.log("打开审批")
           var url = "/myehr/form/toForm.action?formId="+row.formId+"&key="+row.procDefKey+"&isInit=true&taskId="+row.taskId+"&procInsId="+row.procInsId+"&businessId="+row.businessId+'&formType=APP';
           console.log(url);
@@ -86,16 +89,7 @@
          // Object.assign();
           var result = getInitFilterParam(this.queryParam, this.compParams, this.filterConfig)
           this.filterParams = filterParams;
-          console.log('排序数据')
-          console.log(orderByParam)
-          filterParams= { //查询条件实例
-            id:1,
-            name:'张三',
-            startDate:'2018-01-21|2018-09-09'
-          };
-          orderByParam = [ //排序字段
-            {columnName:'age',sortType:'desc'}
-          ]
+          orderByParam = orderByParam==null ?[] :orderByParam;
           console.log(pager)
           var offset =0;
           var limit = 10;
@@ -110,7 +104,7 @@
             return ;
           }
           this.$axios.post('/myehr/form/cardformInitData.action',
-            {"order":"asc","offset":0,"limit":10,"containerParam":{},"paramsMap":{},"requestParam":{"ORGVORGANIZATION_ORGCODE":""},"filter":{"EMPVEMPLOYEE_EMPSTATUS":"","EMPVEMPLOYEE_EMPCODE":"","EMPVEMPLOYEE_CNAME":""},"userIds":null,"formId":"2131","isView":null,"heightGrade":[]}
+            {"order":"asc","offset":offset,"limit":limit,"containerParam":{},"paramsMap":{},"requestParam":{},"filter":filterParams,"userIds":null,"formId":this.formId,"isView":null,"heightGrade":[]}
             )
             .then(function (response) {
               console.log(response)
@@ -133,7 +127,7 @@
           orderByParam:{},
           filterParams:{},
           orderByColumn:[ {name:'id',type:'list',lableName:'序列',defaultOrderBy:'asc',checked:false}, {name:'code',type:'default',lableName:'编码',defaultOrderBy:'asc',checked:false}, {name:'name',type:'list',lableName:'名称',defaultOrderBy:'asc',checked:false}, {name:'date',type:'list',lableName:'创建日期',defaultOrderBy:'asc',checked:false} ],
-          filterColumnDatas:[ { name:'v1', lableName:'多选', type:'checkbox', dictId:'test', defaultValue:'' }, { name:'v2', type:'radio', lableName:'单选', dictId:'test', defaultValue:'' }, { name:'v3', lableName:'显示名字', type:'date', dictId:'test', defaultValue:'' }, { name:'v4', lableName:'显示名字', type:'textbox', dictId:'test', defaultValue:'' }, { name:'v5', lableName:'显示名字', type:'textbox', dictId:'test', defaultValue:'' } ],
+          filterColumnDatas:[ { name:'v1', lableName:'多选', type:'checkbox', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v2', type:'radio', lableName:'单选', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v3', lableName:'显示名字', type:'date', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v4', lableName:'显示名字', type:'textbox', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v5', lableName:'显示名字', type:'textbox', dictId:'dict|CHILDSTATUS', defaultValue:'' } ],
           screenWidth: document.body.clientWidth,
           standDataColumn:{title:'EMPVEMPLOYEE_CNAME',imgUrl:null},
           showRowColumn:[{columnId:'EMPVEMPLOYEE_EMPCODE',columnName:'工号'},{columnId:'EMPVEMPLOYEE_ENAME',columnName:'英文名'},{columnId:'EMPVEMPLOYEE_COMPID_DICTNAME',columnName:'所在公司'},
@@ -143,10 +137,12 @@
           pager:{offset:0,limit:10},
           ibuttons:[{buttonName:'在职背景',icon:'fas fa-edit',buttonId:113,area:"right"}],
           rows: [],
+          currentRow:null,
           totalData:-1,
           isHowTopQuery:false,
           queryParam:this.$route.query, //页面请求参数
           filterConfig: [{paramType: 'parameter', paramValue: 'EMPEMPLOYEE_EMPID', paramName: 'EMPEMPLOYEE_EMPID'}], // 过滤配置
+          formId:2131
           }
         }
     }

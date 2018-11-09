@@ -1,11 +1,11 @@
 <template>
     <div>
-      <div style="margin-bottom: 50px">
+      <div style="margin-bottom: 50px" v-if="dictValue != null">
         <div v-for="(temp,index)  in filterColumnDatas">
           <group :title="temp.lableName"  v-if="temp.type === 'radio'">
             <div class="sp">
               <checker v-model="filterColumnValueData_temp[index].value"  default-item-class="demo5-item" selected-item-class="demo5-item-selected" type="radio">
-                <checker-item v-for="temp in  dictValue[temp.dictId]"   :key="temp.code" :value="temp.code"  >{{temp.name}}</checker-item>
+                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -13,7 +13,7 @@
 
             <div class="sp" >
               <checker type="checkbox" v-model="filterColumnValueData_temp[index].value" default-item-class="demo5-item" selected-item-class="demo5-item-selected"  >
-                <checker-item v-for="t in getDictList(temp.dictId)" :key="t.code" :value="t.code">{{t.name}}</checker-item>
+                <checker-item v-for="t in dictValue(temp.dictId)" :key="t.code" :value="t.code">{{t.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -67,42 +67,36 @@
               j++
             }
           }
-        this.getDictList(dictCode)
+
+        /*console.log(dictCode)
+        console.log(dictCode)
+        console.log(dictCode)
+        console.log(dictCode)
+*/
+        this.getAllDictData()
       },
         methods :{
           onChange (val) {
             console.log('change', val)
-          },
-          getDictList (dictIds) {
-            var dictParams = [];
-            var dictDatax = [];
-            for (var i = 0; i < dictIds.length; i++) {
-              console.log(dictIds[i])
-              var dictDatas = dictIds[i].split('|')
-              var dictParam = {}
-              dictParam.formColumnGuiType = dictDatas[0]
-              dictParam.formColumnUsName = dictDatas[1]
-              dictParams[i] = dictParam
-            }
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-            console.log(dictParams)
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-            this.$axios.post('/myehr/dict/getselectdatasAll.action',dictParams).then(function (response) {
-              for (var i = 0; i < dictIds.length; i++) {
-                dictDatax[dictIds[i]] = response.data[0]
-              }
-              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-              console.log(dictDatax)
-              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-              this.dictValue = dictDatax
-            }.bind(this))
+          },getAllDictData(){
+            // http://116.62.243.28:9876/myehr/dict/getDictDatasAll.action?formId=677
+            this.$axios.post('/myehr/dict/getDictDatasAll.action?formId='+this.formId)
+              .then(function (response) {
+
+                if(response.data) {
+                  this.dictValue = response.data;
+                }else {
+                  this.dictValue = {};
+                }
+                alert(this.dictValue);
+              }.bind(this))
               .catch(function (error) {
-                console.log(error)
-              })
+
+              });
           },
           getFormData(){
             var len = this.filterColumnValueData_temp.length;
-            for (var i = 0; i < len; i ++) {
+            for (var zi = 0; i < len; i ++) {
               var propertyName = this.filterColumnDatas[i].name;
 
               this.filterColumnValueData[propertyName] = this.filterColumnValueData_temp[i].value;
@@ -117,18 +111,18 @@
           }
         }
         ,props:{
-        filterColumnDatas:{
-          type:Array,
-          default:function () {
-            return []
-          }
-        }
+          filterColumnDatas:{
+            type:Array,
+            default:function () {
+              return []
+            }
+          },formId:{}
       },
       data () {
         return {
           filterColumnValueData_temp:[],
           filterColumnValueData:{},
-          dictValue:[],
+          dictValue:null,
           defaultHourList: ['09', '10', '11', '12', '13', '14', '15', '16', '17','18', '19', '20', '21', '22', '23', '00', '01', '02', '03','04','05','06','06','08'],
           defaultMinuteList:['00', '15', '30', '45']
         }

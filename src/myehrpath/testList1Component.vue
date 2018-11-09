@@ -81,9 +81,7 @@
                 this.totalData = response.data.total;
               }else {
                 this.rows = initRows.concat(response.data.rows);
-
               }
-
             }.bind(this))
             .catch(function (error) {
               console.log(error);

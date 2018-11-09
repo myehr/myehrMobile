@@ -39,7 +39,7 @@
       <popup v-model="showFilter" position="right">
         <div style="width:300px;">
 
-          <FormCreateQuery ref="headerChild" :filterColumnDatas="filterColumnDatas">
+          <FormCreateQuery ref="headerChild" :filterColumnDatas="filterColumnDatas" :formId="formId">
 
           </FormCreateQuery>
 
@@ -193,26 +193,6 @@
         this.listOrderByCheck = null
         this.startQuery()
       },
-      getDictList (dictId) {
-        console.log(this.filterColumnValueData_temp[0])
-        var dictDatas = dictId.split('|')
-        this.$axios.post('/myehr/dict/getselectdatasAll.action',
-          [{'formColumnGuiType': dictDatas[0], 'formColumnUsName': dictDatas[1], 'formColumnId': ''}]
-        ).then(function (response) {
-          console.log(response)
-          var data = response.data[0]
-          if (data != null) {
-            return data
-            //return [{id: '1', name: '张三'}, {id: '2', name: '李四'}, {id: '3', name: '张三3'}, {id: '4', name: '李四4'}, {id: '5', name: '张三5'}, {id: '6', name: '李四6'}, {id: '7', name: '李四6'}, {id: '8', name: '李四6'}]
-          } else {
-            return [{code: '1', name: '张三'}, {code: '2', name: '李四'}, {code: '3', name: '张三3'}, {code: '4', name: '李四4'}, {code: '5', name: '张三5'}, {code: '6', name: '李四6'}, {code: '7', name: '李四6'}, {code: '8', name: '李四6'}]
-          }
-        }.bind(this))
-          .catch(function (error) {
-            console.log(error);
-          });
-
-      },
       startQuery () {
         console.log('综合查询条件')
         let ctime = new Date().getTime()
@@ -353,7 +333,8 @@
       },
       pager: {
 
-      }
+      },
+      formId:{}
     },
     data () {
       return {
