@@ -4,23 +4,14 @@
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
 
     <!-- 添加多tab菜单模块 -->
-     <tab>
-      <tab-item @on-item-click="tabHandler(index)" v-for="(item,index) in datatable[0].childrens" :key="index" :selected="index == selindex">{{ item.menuName }}</tab-item>
-    </tab>
-    <div class="swaperBox">
-      <text-swiper :swipers='datatable[0].childrens[selectedChild].childrens'></text-swiper>
-    </div>
-    <!-- 添加多tab 列表块 -->
-    <tab>
-      <!-- <tab-item v-for="n in 8" :key="n" :selected="n===1">列表文件{{ n }}</tab-item> -->
-    </tab>
-    <router-view></router-view>
 
+    <!-- 添加多tab 列表块 -->
     <group title="我的任务">
       <cell title="Live Demo222" link="/demo">
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
-       <cell title="asiasifaf" link="/demo">
+
+       <cell title="组合表单演示" link=""  v-on:click.native="gotomyehrcardCombine" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
 
@@ -39,7 +30,9 @@
       <cell title="卡片表单演示" link=""  v-on:click.native="gomyehrcard" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>-->
-
+      <cell title="卡列配置演示" link=""  v-on:click.native="gotomyehrcardlistconfig" >
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
       <cell title="卡列演示" link=""  v-on:click.native="gotomyehrcardlist" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -128,8 +121,6 @@ export default {
     TextSwiper
   },created() {
       this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
-
-
     let username = getCookie('username')
     let password =  getCookie('password')
     console.log(username+password)
@@ -361,8 +352,12 @@ export default {
       
       this.selectedChild = index;
       this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
-
-      
+    },
+    gotomyehrcardCombine(){
+      this.gotoMyehrPath('/myehrpath/combine/cardForm.vue',{empcode:'123456'},'组合表单');
+    },
+    gotomyehrcardlistconfig(){
+      this.gotoMyehrPath('/myehrpath/form/TP_management/Xiamenprocess/lc_personnel/LC_Branchstaffing2.vue',{empcode:'123456'},'卡列配置演示');
     },
     gotomyehrcardlist(){
       this.gotoMyehrPath('/myehrpath/testCardList.vue',{empcode:'123456'},'卡列演示');

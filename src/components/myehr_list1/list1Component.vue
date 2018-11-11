@@ -1,6 +1,6 @@
 <template>
   <div class="container ">
-    <search  v-model="commonFilterParam" v-if="isHowTopQuery==true" :auto-fixed="false"></search>
+    <search  v-model="commonFilterParam" v-if="isShowTopQuery==true" :auto-fixed="false"></search>
     <div slot="content" class="card-demo-flex">
       <div class="vux-1px-r"  v-on:click="showOrderByList= !showOrderByList"  v-if="listOrderByColumn.length>0">
         <span>{{ listOrderByCheckName==null?'排序字段':listOrderByCheckName  }}</span>
@@ -39,7 +39,7 @@
       <popup v-model="showFilter" position="right">
         <div style="width:300px;">
 
-          <FormCreateQuery ref="headerChild" :filterColumnDatas="filterColumnDatas">
+          <FormCreateQuery ref="headerChild" :filterColumnDatas="filterColumnDatas" :formId="formId">
 
           </FormCreateQuery>
 
@@ -138,6 +138,17 @@
       },
       'commonFilterParam': function (newVal, oldVal) {
         this.blurQuery()
+      },
+      winHeight(n,o){
+        if(n === '0px') {
+          if(this.initIsShowTopQuery === true){
+            this.isShowTopQuery = false;
+          }
+        }else {
+          if(this.initIsShowTopQuery === true){
+            this.isShowTopQuery = true;
+          }
+        }
       }
     },
     methods: {
@@ -181,29 +192,6 @@
         this.listOrderByCheckName = null
         this.listOrderByCheck = null
         this.startQuery()
-      },
-      getDictList (dictId) {
-        console.log(this.filterColumnValueData_temp[0])
-        var dictDatas = dictId.split('|')
-        this.$axios.post('/myehr/dict/getselectdatasAll.action',
-          [{'formColumnGuiType': dictDatas[0], 'formColumnUsName': dictDatas[1], 'formColumnId': ''}]
-        ).then(function (response) {
-          console.log(response)
-          var data = response.data[0]
-          if (data != null) {
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-            console.log(data)
-            console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-            return data
-            //return [{id: '1', name: '张三'}, {id: '2', name: '李四'}, {id: '3', name: '张三3'}, {id: '4', name: '李四4'}, {id: '5', name: '张三5'}, {id: '6', name: '李四6'}, {id: '7', name: '李四6'}, {id: '8', name: '李四6'}]
-          } else {
-            return [{code: '1', name: '张三'}, {code: '2', name: '李四'}, {code: '3', name: '张三3'}, {code: '4', name: '李四4'}, {code: '5', name: '张三5'}, {code: '6', name: '李四6'}, {code: '7', name: '李四6'}, {code: '8', name: '李四6'}]
-          }
-        }.bind(this))
-          .catch(function (error) {
-            console.log(error);
-          });
-
       },
       startQuery () {
         console.log('综合查询条件')
@@ -297,7 +285,12 @@
         this.$emit('onRowButtonClick', buttonId, row)
       },
       onRowClick (row) {
-        this.$emit('onRowClick', row)
+        let oldRow = this.currentRow;
+        this.$emit('onRowClick', row,oldRow)
+        this.currentRow = row;
+        //其它业务实现
+
+
       },
       hasFilterColumnDatas () {
         if (this.filterColumnDatas) {
@@ -321,7 +314,7 @@
       bottom_buttons: {
 
       },
-      isHowTopQuery: {},
+      isShowTopQuery: {},
       filterColumnDatas: {
         type: Array,
         default: function () {
@@ -345,7 +338,8 @@
       },
       pager: {
 
-      }
+      },
+      formId:{}
     },
     data () {
       return {
@@ -363,10 +357,13 @@
         listOrderByCheck: null,
         orderBy: 'asc',
         orderByParam: null,
-        showOrderByList: false
+        showOrderByList: false,
+        initIsShowTopQuery:false,
+        currentRow:null
       }
     },
     created () {
+      this.initIsShowTopQuery = this.isShowTopQuery;
       if (this.orderByColumn) {
         for (var i = 0; i < this.orderByColumn.length; i++) {
           if (this.orderByColumn[i].type == 'default') {

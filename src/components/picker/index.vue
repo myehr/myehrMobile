@@ -22,6 +22,12 @@ export default {
     FlexboxItem
   },
   created () {
+    console.log('popup:'+this.value)
+    console.log(this.data)
+      if(this.value == null) {
+        this.value =[];
+      }
+
     if (this.columns !== 0) {
       const length = this.columns
       this.store = new Manager(this.data, length, this.fixedColumns || this.columns)

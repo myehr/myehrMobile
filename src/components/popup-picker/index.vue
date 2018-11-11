@@ -80,6 +80,9 @@ export default {
     TransferDom
   },
   created () {
+    if(this.value == null) {
+      this.value = [];
+    }
     if (typeof this.show !== 'undefined') {
       this.showValue = this.show
     }

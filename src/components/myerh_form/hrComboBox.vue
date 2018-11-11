@@ -13,7 +13,7 @@
     </div >
 
     <div class="weui-cell__ft" v-if="readonly !== true">
-      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" :title="errorMessage" style="" v-if="!valid" v-on:click="showErrorMsg"></i>
+      <i class="vux-input-icon weui-icon weui_icon_warn weui-icon-warn" :title="errorMessage" style="" v-if="valid===false" v-on:click="showErrorMsg"></i>
     </div>
     <toast v-model="shoToaskMsg" type="text" :time="800" is-show-mask :text="errorMessage"  ></toast>
   </div>
@@ -51,10 +51,6 @@
       }
     },
     created () {
-      console.log('下来数据')
-      console.log('下来数据')
-      console.log(this.data)
-
       if(this.readonly === true) {
         this.readOnlyText = '';
         for(var i=0; i<this.data.length; i++) {
@@ -72,8 +68,10 @@
       if(this.value != null) {
         this.currentValue = this.value.toString().split(',')
       }
+
       if (this.required === true || this.required === 'true') {
         if (this.value == null || this.value === '' || this.value === undefined) {
+
           this.valid = false
         } else {
           this.valid = true
@@ -86,7 +84,7 @@
       },
       currentValue (n, o) {
         if (this.required === true || this.required === 'true') {
-          if (n == null || n === '' || n === undefined) {
+          if (n == null || n === ''|| n === undefined ||n == ''  ) {
             this.valid = false
           } else {
             this.valid = true
