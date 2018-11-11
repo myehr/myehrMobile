@@ -4,7 +4,7 @@
       <tab-item v-for="(item, index) in tabList"  :key="index" @on-item-click="onItemClick(index)"  :selected="index===0">{{ item.title }}</tab-item>
     </tab>
 
-    <keep-alive    >
+    <keep-alive>
       <router-view class="router-view" ></router-view>
     </keep-alive>
     <!--<p>
@@ -27,12 +27,14 @@
       Tab,
       TabItem,
       worktab
-    },data(){
+    },
+    data(){
       return {
         currentIndex : 0,
         tabList:[{title:'自助',path:'/myehrpath/work/userSelf',icon:''},{title:'招聘',path:'/myehrpath/testList2Component',icon:''},{title:'人事',path:'/myehrpath/login',icon:''},{title:'薪酬',path:'/myehrpath/testList1Component',icon:''},{title:'开发',path:'/myehrpath/testList1Component',icon:''}]
       }
-    },created(){
+    },
+    created(){
       let children = [];
 
       children = [];
@@ -57,12 +59,13 @@
     },
     methods: {
       onItemClick(index){
-      //    this.$router.push({path: '/worktab'+this.tabList[index].path})
           this.currentIndex = index;
       }
-  },activated(){
+  },
+  activated(){
       this.$router.push({path: '/worktab'+this.tabList[this.currentIndex].path})
-    },watch:{
+    },
+  watch:{
       currentIndex(curVal,oldVal){
         this.$router.push({path: '/worktab'+this.tabList[curVal].path})
       }

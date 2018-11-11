@@ -2,15 +2,26 @@
   <div>
 
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
-
     <!-- 添加多tab菜单模块 -->
+     <tab>
+      <tab-item @on-item-click="tabHandler(index)" v-for="(item,index) in datatable[0].childrens" :key="index" :selected="index == selindex">{{ item.menuName }}</tab-item>
+    </tab>
+    <div class="swaperBox">
+      <text-swiper :swipers='datatable[0].childrens[selectedChild].childrens'></text-swiper>
+    </div>
+    <!-- 添加多tab 列表块 -->
+      <div style="margin-top:20px;">
+        <tab>
+          <tab-item v-for="(item, index) in tabList"  :key="index" @on-item-click="onItemTableClick(index)"  :selected="index===0">{{ item.title }}</tab-item>
+        </tab>
+      </div>
+    <router-view class="listRowB"></router-view>
 
     <!-- 添加多tab 列表块 -->
     <group title="我的任务">
       <cell title="Live Demo222" link="/demo">
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
-
        <cell title="组合表单演示" link=""  v-on:click.native="gotomyehrcardCombine" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -85,6 +96,7 @@ import myehrbuttontab  from './myehrbuttontab'
 import  { getCookie,setCookie,delCookie } from 'src/libs/cookieUtil.js'
 import TextSwiper from './myswiper'
 import asiaSwiper from 'swiper';
+ import home from './Home.vue'
 
 // import Swiperss from 'swiper'
 
@@ -118,9 +130,37 @@ export default {
     TabItem,
     Grid,
     GridItem,
-    TextSwiper
-  },created() {
-      this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
+    TextSwiper,
+    home
+  },
+  created() {
+
+    this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
+
+    //table 切换列表的路由初始化注册S
+     let children = [];
+
+      children = [];
+      for(var i=0 ;i<this.tabList.length; i++) {
+        var temp = this.tabList[i];
+        let chpath = temp.path.substring(1,temp.path.length);
+        let filePath = temp.path.replace('/myehrpath','')
+        children.push({
+          path: chpath, component: () => import(`@/myehrpath${filePath}.vue`).then(m => m.default)
+        });
+      }
+      let myroutes =  [
+        {
+          path: '/home',
+          component: home,
+          children:children
+        }
+      ]
+      this.$router.addRoutes(myroutes);
+      this.$router.push({path: '/home'+this.tabList[0].path})
+      // end
+
+
     let username = getCookie('username')
     let password =  getCookie('password')
     console.log(username+password)
@@ -151,8 +191,13 @@ export default {
       });
     }
 },
+activated(){
+      this.$router.push({path: '/home'+this.tabList[this.currentIndex].path})
+    },
   data () {
     return {
+      tabList:[{title:'我的待办',path:'/myehrpath/testList1Component',icon:''},{title:'我的已办',path:'/myehrpath/testList2Component',icon:''}],
+      currentIndex:0,
       version,
       vueVersion,
       undototal:0,
@@ -343,15 +388,22 @@ export default {
                         } 
                     ]
                 },]}]
+    
+    
+    
+    
     }
   },
   methods:{
     //tab切换事件
     tabHandler(index){
-      console.log(index,'当前点击的index');
-      
       this.selectedChild = index;
       this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
+    },
+    //table 列表 事件
+    onItemTableClick(index){
+        console.log(index);
+        this.currentIndex = index;
     },
     gotomyehrcardCombine(){
       this.gotoMyehrPath('/myehrpath/combine/cardForm.vue',{empcode:'123456'},'组合表单');
@@ -370,7 +422,6 @@ export default {
       this.gotoMyehrPath('/myehrpath/form/Emp_info/Staff_info/Employee/emp_employee_list.vue',param,'测试列表',true);
     },
     gotoSwiperDetail(item){
-      alert(formType1);
         console.log('轮播点击回调');
 
     },
@@ -448,6 +499,11 @@ export default {
     },
 
   },
+  watch:{
+      currentIndex(curVal,oldVal){
+        this.$router.push({path: '/home'+this.tabList[curVal].path})
+      }
+    }
 }
 </script>
 
@@ -490,7 +546,10 @@ body {
   margin-top: 15px;
 }
 
-.swaperBox{
-  height: 150px;
+/* .swaperBox{
+  height: 160px;
+} */
+.listRowB{
+  height: 200px;
 }
 </style>

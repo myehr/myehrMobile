@@ -9,6 +9,8 @@
               </grid>
             </div>
         </div>
+         <!-- Add Pagination -->
+    <div class="swiper-pagination"></div>
     </div>
 </template>
 <script>
@@ -36,7 +38,7 @@
         this.testSwiper = new asiaSwiper('.swiper-container', {
                 pagination: '.swiper-pagination',
                 slidesPerView: 4,
-                slidesPerColumn: 2,
+                slidesPerColumn: 2,// 控制组件列
                 paginationClickable: true,
                 spaceBetween: 30
         })
@@ -75,5 +77,8 @@
 <style scoped>
  .weui-grid__label{
    text-overflow: inherit !important;
+ }
+ .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
+   bottom: -4px;
  }
 </style>
