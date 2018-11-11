@@ -2,8 +2,8 @@ import objectAssign from 'object-assign'
 
 import Vue from 'vue/dist/vue.min'
 
-import App from './App'
 
+import App from './App'
 import Vuex from 'vuex'
 import vuexI18n from 'vuex-i18n'
 import VueRouter from 'vue-router'
@@ -19,7 +19,7 @@ import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 import solid from '@fortawesome/fontawesome-free-solid'
 import regular from '@fortawesome/fontawesome-free-regular'
 import brands from '@fortawesome/fontawesome-free-brands'
-
+// import 'swiper/dist/css/swiper.css';
 fontawesome.library.add(solid)
 fontawesome.library.add(regular)
 fontawesome.library.add(brands)

@@ -4,8 +4,18 @@
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
 
     <!-- 添加多tab菜单模块 -->
-    
+     <tab>
+      <tab-item @on-item-click="tabHandler(index)" v-for="(item,index) in datatable[0].childrens" :key="index" :selected="index == selindex">{{ item.menuName }}</tab-item>
+    </tab>
+    <div class="swaperBox">
+      <text-swiper :swipers='datatable[0].childrens[selectedChild].childrens'></text-swiper>
+    </div>
     <!-- 添加多tab 列表块 -->
+    <tab>
+      <!-- <tab-item v-for="n in 8" :key="n" :selected="n===1">列表文件{{ n }}</tab-item> -->
+    </tab>
+    <router-view></router-view>
+
     <group title="我的任务">
       <cell title="Live Demo222" link="/demo">
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
@@ -77,22 +87,19 @@
 </template>
 
 <script>
-import { Cell, Group, Badge, Divider,Swiper,SwiperItem } from 'vux'
+import { Cell, Group, Badge, Divider,Swiper,SwiperItem,Tab, TabItem,Grid, GridItem } from 'vux'
 import myehrbuttontab  from './myehrbuttontab'
 import  { getCookie,setCookie,delCookie } from 'src/libs/cookieUtil.js'
+import TextSwiper from './myswiper'
+import asiaSwiper from 'swiper';
+
+// import Swiperss from 'swiper'
+
 
 const pkg = require('../../package.json')
 const version = pkg.version
 const vueVersion = pkg.devDependencies.vue
-const baseList = [{
-  url: 'javascript:',
-  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vvsr72j20p00gogo2.jpg',
-  title: '送你一朵fua'
-}, {
-  url: 'javascript:',
-  img: 'https://ww1.sinaimg.cn/large/663d3650gy1fq66vw1k2wj20p00goq7n.jpg',
-  title: '送你一辆车'
-}, {
+const baseList = [ {
   url: 'javascript:',
   img: 'https://static.vux.li/demo/5.jpg', // 404
   title: '送你一次旅行',
@@ -114,9 +121,15 @@ export default {
     Divider,
     Swiper,
     SwiperItem,
+    Tab,
+    TabItem,
+    Grid,
+    GridItem,
+    TextSwiper
   },created() {
-    let m = 6;
-    console.log(m.toString(2),'二进制转化');
+      this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
+
+
     let username = getCookie('username')
     let password =  getCookie('password')
     console.log(username+password)
@@ -156,10 +169,201 @@ export default {
       swiperList:urlList,
       showDoneLoading:true,
       showUnDoneLoading:true,
-      swiperListIndex:0
+      swiperListIndex:0,
+      selindex:0,
+      selectedChild:0,
+      cardParams:null,
+      datatable:[
+        {
+            "menuCode":"personnel",
+            "menuName":"人事",
+            "menuId":"172",
+            "menuUrl":"null",
+            "menuType":"M",
+            "menuDictCode":"null",
+            "menuIsDynamicForm":"N",
+            "menuFormId":"null",
+            "childrens":[
+                {
+                    "menuCode":"Staff_information",
+                    "menuName":"职员信息",
+                    "menuId":"173",
+                    "menuTitle":"null",
+                    "menuUrl":"null",
+                    "menuType":"F",
+                    "menuDictCode":"B",
+                    "menuIsDynamicForm":"N",
+                    "menuFormId":"null",
+                    "childrens":[
+                        {
+                            "menuCode":"empl_serviceStaff",
+                            "menuName":"在职员工1",
+                            "menuId":"202",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2140"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工1",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        }, 
+                    ]
+                },{
+                    "menuCode":"Staff_information",
+                    "menuName":"职员信息2",
+                    "menuId":"173",
+                    "menuTitle":"null",
+                    "menuUrl":"null",
+                    "menuType":"F",
+                    "menuDictCode":"B",
+                    "menuIsDynamicForm":"N",
+                    "menuFormId":"null",
+                    "childrens":[
+                        {
+                            "menuCode":"empl_serviceStaff",
+                            "menuName":"在职54员工2",
+                            "menuId":"202",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2140"
+                        },
+                        {
+                            "menuCode":"empl_DepartStaff",
+                            "menuName":"离职员工2",
+                            "menuId":"210",
+                            "menuTitle":"null",
+                            "menuUrl":"",
+                            "menuType":"L",
+                            "menuDictCode":"null",
+                            "menuIsDynamicForm":"Y",
+                            "menuFormId":"2144"
+                        } 
+                    ]
+                },]}]
     }
   },
   methods:{
+    //tab切换事件
+    tabHandler(index){
+      console.log(index,'当前点击的index');
+      
+      this.selectedChild = index;
+      this.cardParams = this.datatable[0].childrens[this.selectedChild].childrens
+
+      
+    },
     gotomyehrcardlist(){
       this.gotoMyehrPath('/myehrpath/testCardList.vue',{empcode:'123456'},'卡列演示');
     },
@@ -246,8 +450,9 @@ export default {
           this.showDoneLoading = false;
           console.log(error);
         });
-    }
-  }
+    },
+
+  },
 }
 </script>
 
@@ -288,5 +493,9 @@ body {
   font-size: 12px;
   padding: 5px 10px;
   margin-top: 15px;
+}
+
+.swaperBox{
+  height: 150px;
 }
 </style>
