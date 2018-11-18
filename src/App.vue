@@ -69,7 +69,7 @@
     </drawer>
     <div  >
     </div>
-    <tabbar>
+    <!-- <tabbar>
       <tabbar-item selected link="/">
         <span class="icon iconfont icon-shouye1 hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">首页</span>
@@ -86,7 +86,7 @@
         <span class="icon iconfont icon-wo hometabbar" style="font-size: 23px"   slot="icon" ></span>
         <span slot="label">我</span>
       </tabbar-item>
-    </tabbar>
+    </tabbar> -->
   </div>
 </template>
 

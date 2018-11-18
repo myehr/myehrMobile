@@ -3,7 +3,7 @@
         <div class="swiper-wrapper">
             <div class="swiper-slide" v-for="(item,index) in swipers" :key="index" style="margin-right:20px !important;">
               <grid :show-lr-borders="false">
-                <grid-item  :label="item.menuName" >
+                <grid-item :link='item.menuUrl'  :label="item.menuName" >
                   <img slot="icon" src="../assets/grid_icon.png">
                 </grid-item>
               </grid>
