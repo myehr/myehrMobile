@@ -30,6 +30,16 @@ export function setDefaultValue(i,formthis,sessionData) {
   }
 }
 
+export function refreshDictCache(formId, buttonId,_this) {
+  _this.$axios.post('/myehr/form/refreshDictCache.action?formId=' + formId + '&buttonId=' + buttonId)
+    .then(function (response) {
+    }.bind(this))
+    .catch(function (error) {
+
+    });
+
+}
+
 /**
  * 获取表单初始化过滤参数
  * @param queryParam 路由跳转传入参数

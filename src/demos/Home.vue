@@ -416,10 +416,10 @@ activated(){
     },
     testlist(){
       var param = {keepAlive:true};
-      //this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',true);
+      this.gotoMyehrPath('/myehrpath/testList1Config',param,'测试列表',false);
       //this.gotoMyehrPath('/myehrpath/form/org_manage/org_compan/dept_departInfo/dept_deptinfo/dept_info_list.vue',param,'测试列表',true);
       //E:\vueWork\github\mobile\src\myehrpath\form\Emp_info\Staff_info\Employee\emp_employee_list.vue
-      this.gotoMyehrPath('/myehrpath/form/Emp_info/Staff_info/Employee/emp_employee_list.vue',param,'测试列表',true);
+   //   this.gotoMyehrPath('/myehrpath/form/Emp_info/Staff_info/Employee/emp_employee_list.vue',param,'测试列表',true);
     },
     gotoSwiperDetail(item){
         console.log('轮播点击回调');

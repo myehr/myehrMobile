@@ -1,6 +1,7 @@
 <template>
   <div class="testlist">
-     <list1-component v-bind:rows="this.rows"   v-bind:standDataColumn="standDataColumn" v-bind:pager="pager" v-bind:showRowDataColumn="showRowColumn" v-bind:ibuttons="ibuttons"
+     <list1-component v-bind:rows="this.rows"   v-bind:standDataColumn="standDataColumn" v-bind:pager="pager" v-bind:showRowDataColumn="showRowColumn"
+                      v-bind:right_buttons="right_buttons" v-bind:bottom_buttons="bottom_buttons" v-bind:slid_buttons="slid_buttons"
                       @onRowClick="onRowClick" @onRowButtonClick="onRowButtonClick"  @onScrollBottom="onScrollBottom" @onBlurQuery="onBlurQuery" :orderByColumn="orderByColumn" :isHowTopQuery="isHowTopQuery"
                       :filterColumnDatas="filterColumnDatas"  :winHeight="contentHeight" :formId="formId" >
 
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-  import  {List1Component} from 'vux'
+  import List1Component from '@/components/myehr_list1/list1Component.vue'
   import  { setDefaultValue,dateFormat ,getInitFilterParam} from '@/libs/formCommon.js'
     export default {
       components: {
@@ -63,7 +64,13 @@
         },
         onRowButtonClick(buttonId,row){
           //点击每个按钮具体实现转交上层组件实现
-          this.onRowClick(row);
+          if(buttonId === 2414) {
+            //编辑按钮
+            var param = {EMPEMPLOYEE_EMPID: "600"};
+            this.gotoMyehrPath('/myehrpath/testCardForm',param,'编辑');
+            return ;
+          }
+          //this.onRowClick(row);
         },
         onRowClick(row,oldRow){
           //固定写法，设置当前行变量
@@ -81,6 +88,7 @@
           this.$emit('onButtonClickEnd',this.formId,buttonId,datas,retcode);
         },
         onBlurQuery(value){
+
           var old = this.filterParams ;
           old[rtyuiop] = value;
           this.loadData(null,null,old,this.orderByParam);
@@ -107,7 +115,7 @@
             return ;
           }
           this.$axios.post('/myehr/form/cardformInitData.action',
-            {"order":"asc","offset":offset,"limit":limit,"containerParam":{},"paramsMap":{},"requestParam":{},"filter":filterParams,"userIds":null,"formId":this.formId,"isView":null,"heightGrade":[]}
+            {"order":"asc","offset":offset,"limit":limit,"containerParam":{},"paramsMap":{},"requestParam":{},"orderByParam":orderByParam,"filter":filterParams,"userIds":null,"formId":this.formId,"isView":null,"heightGrade":[]}
             )
             .then(function (response) {
               if(response.data) {
@@ -134,16 +142,30 @@
         return {
           orderByParam:{},
           filterParams:{},
-          orderByColumn:[ {name:'id',type:'list',lableName:'序列',defaultOrderBy:'asc',checked:false}, {name:'code',type:'default',lableName:'编码',defaultOrderBy:'asc',checked:false}, {name:'name',type:'list',lableName:'名称',defaultOrderBy:'asc',checked:false}, {name:'date',type:'list',lableName:'创建日期',defaultOrderBy:'asc',checked:false} ],
-          filterColumnDatas:[ { name:'v1', lableName:'多选', type:'checkbox', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v2', type:'radio', lableName:'单选', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v3', lableName:'显示名字', type:'date', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v4', lableName:'显示名字', type:'textbox', dictId:'dict|CHILDSTATUS', defaultValue:'' }, { name:'v5', lableName:'显示名字', type:'textbox', dictId:'dict|CHILDSTATUS', defaultValue:'' } ],
+          orderByColumn: [{name: 'EMPVEMPLOYEE_JOBBEGINDATE', type: 'default', lableName: '从岗日期', defaultOrderBy: 'asc', checked: false},
+            {name: 'EMPVEMPLOYEE_JOBAGE', type: 'list', lableName: '岗龄', defaultOrderBy: 'asc', checked: false},
+            {name: 'EMPVEMPLOYEE_EMPCODE', type: 'list', lableName: '工号', defaultOrderBy: 'asc', checked: false}
+          ],
+          filterColumnDatas: [{name: 'EMPVEMPLOYEE_JOBSTATUS', lableName: '在岗状态', type: 'radio', dictId: 'dict|Onduty', defaultValue: '' }],
           screenWidth: document.body.clientWidth,
-          standDataColumn:{title:'EMPVEMPLOYEE_CNAME',imgUrl:null},
-          showRowColumn:[{columnId:'EMPVEMPLOYEE_EMPCODE',columnName:'工号'},{columnId:'EMPVEMPLOYEE_ENAME',columnName:'英文名'},{columnId:'EMPVEMPLOYEE_COMPID_DICTNAME',columnName:'所在公司'},
-              {columnId:'EMPVEMPLOYEE_CERTNO',columnName:'身份证号'},
-              {columnId:'EMPVEMPLOYEE_JOBID_DICTNAME',columnName:'职务'}
-            ],
+          standDataColumn: {title: '', imgUrl: null},
+          showRowColumn: [
+            {columnId: 'EMPVEMPLOYEE_EMPCODE', columnName: '工号'},
+            {columnId: 'EMPVEMPLOYEE_CNAME', columnName: '姓名'},
+            {columnId: 'EMPVEMPLOYEE_DEPID_DICTNAME', columnName: '部门'},
+            {columnId: 'EMPVEMPLOYEE_JOBID_DICTNAME', columnName: '职位'},
+            {columnId: 'EMPVEMPLOYEE_EMPSTATUS_DICTNAME', columnName: '员工状态'}
+          ],
           pager:{offset:0,limit:10},
-          ibuttons:[{buttonName:'在职背景',icon:'fas fa-edit',buttonId:113,area:"right"}],
+          pager: {offset: 0, limit: 10},
+          right_buttons: [
+            {buttonName: '编辑', icon: 'fas fa-edit', buttonId: 2414}
+          ],
+          bottom_buttons: [
+            {buttonName: '预览', icon: 'fas fa-edit', buttonId: 3032}
+          ],
+          slid_buttons: [
+          ],
           rows: [],
           currentRow:null,
           totalData:-1,

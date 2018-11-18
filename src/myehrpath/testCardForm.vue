@@ -39,21 +39,24 @@
       <loading :show="show1" :text="text1"></loading>
     </div>
     <div class="bottomFixed" style="margin-bottom:  50px ;width: 98%">
-      <x-button type="primary"    @click.native="submitForm" >提交</x-button>
+      <x-button type="primary"    @click.native="onButtonClick(5055)" >提交</x-button>
     </div>
+    <toast v-model="showToaskMsg" type="text" :time="800" is-show-mask :text="toastMessage"  ></toast>
   </div>
 </template>
 
 <script>
   import { XInput,Calendar, Group, XButton, Cell,CheckIcon,Checklist,XSwitch ,Datetime,PopupPicker} from 'vux'
+  import md5 from '@/tools/md5/index.js'
   import  { getSessionData } from '@/libs/cookieUtil.js'
-  import  { setDefaultValue,dateFormat,getInitFilterParam } from '@/libs/formCommon.js'
+  import  { setDefaultValue,dateFormat,getInitFilterParam,refreshDictCache } from '@/libs/formCommon.js'
   import  hrCheckList from '@/components/myerh_form/hrCheckList.vue'
   import HrDateTime from "../components/myerh_form/hrDateTime";
   import HrTextarea  from '@/components/myerh_form/hrTextarea.vue'
   import HrFileUpload  from '@/components/myerh_form/hrFileUpload.vue'
   import HrTextBox  from '@/components/myerh_form/hrTextBox.vue'
   import HrComboBox from '@/components/myerh_form/hrComboBox.vue'
+  import Toast from '@/components/toast/index.vue'
   export default {
     name: "testCardForm",
     components: {
@@ -72,7 +75,8 @@
       HrFileUpload,
       HrTextBox,
       XButton,
-      HrComboBox
+      HrComboBox,
+      Toast
     },watch:{
       checkval:function(n,o){
 
@@ -100,8 +104,55 @@
 
           });
       },
-      submitForm(){
-        this.buttonClickCallBack(1,{},'0000');
+      onButtonClick(buttonId){
+        if(buttonId === 5055) {
+          //保存
+          var paramsMap = {		'c_71065' : this.formData.EMPEMPLOYEE_EMPID};
+          var _param = {};
+          _param.formId = this.formId;
+          _param.buttonId = buttonId;
+          _param = this.formData;
+          _param.paramsMap = paramsMap
+          var hzsParam = [];
+          var signstr = JSON.stringify(_param);
+          var rule ='"' ;
+          var regS = new RegExp(rule,'g');
+          signstr = signstr.replace(regS, '');
+          var rule2 =':' ;
+          var regS2 = new RegExp(rule2,'g');
+          signstr = signstr.replace(regS2, '=');
+          var sign = md5(signstr);
+          //验证数据
+          if(this.checkValue ) {
+            this.$axios.post('/myehr/form/saveButtonSave.action?sign='+sign,
+              _param)
+              .then(function (response) {
+                var text = response.data;
+                if(text[0]=='000000' || text[1]=='保存成功' || text[0]=='000000' || text[1]=='执行成功'){
+                  alert("操作成功！");
+                  refreshDictCache(this.formId,buttonId);
+                  closex();
+                }else if(text[0]=='error'){
+                  if(text.length>1 &&text[0]=='error'){
+                    alert(text[1]);
+                    closex();
+                  }else{
+                    alert("操作异常");
+                  }
+                }else {
+                  hzsParam = text;
+                }
+
+               alert(response.data);
+              }.bind(this))
+              .catch(function (error) {
+              });
+          }else {
+            this.showToaskMsg = true;
+            this.toastMessage = '数据不完整';
+          }
+      }
+        this.buttonClickCallBack(buttonId,{},'0000');
       },
       onValidChange:function (value) {
 
@@ -191,7 +242,9 @@
         radioValue:'中国',
         list1: [['小米', 'iPhone', '华为', '情怀', '三星', '其他', '不告诉你']],
         checkval:'1,2',
-        datevalue:'2018-10-21'
+        datevalue:'2018-10-21',
+        showToaskMsg:false,
+        toastMessage:''
       }
     }
   }
@@ -257,7 +310,7 @@
 <style scoped>
 .bottomFixed {
   position: fixed;
-  z-index: 1000;
+  z-index: 2;
   left: 0px;
   bottom: 0px;
   width: 100%;
