@@ -5,7 +5,7 @@
           <group :title="temp.lableName"  v-if="temp.type === 'radio'">
             <div class="sp">
               <checker v-model="filterColumnValueData_temp[index].value"  default-item-class="demo5-item" selected-item-class="demo5-item-selected" type="radio">
-                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp.name}}</checker-item>
+                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp2.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -13,7 +13,7 @@
           <group :title="temp.lableName"  v-if="temp.type === 'checkbox'">
             <div class="sp">
               <checker v-model="filterColumnValueData_temp[index].value"  default-item-class="demo5-item" selected-item-class="demo5-item-selected" type="checkbox">
-                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp.name}}</checker-item>
+                <checker-item v-for="temp2 in  dictValue[temp.dictId]"   :key="temp2.code" :value="temp2.code"  >{{temp2.name}}</checker-item>
               </checker>
             </div>
           </group>
@@ -62,6 +62,7 @@
         },created: function(){
           // 这里是动态生成v-model,这个可以放在网络请求成功里面;
           var len = this.filterColumnDatas.length;
+
           var dictCode = []
           for (var i = 0,j=0; i < len; i ++) {
             var item = {value: null};

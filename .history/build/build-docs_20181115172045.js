@@ -8,6 +8,7 @@ const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
 const semver = require('semver')
 const sortObj = require('sort-object')
+
 mkdirp.sync(path.resolve(__dirname, '../docs/zh-CN/changelog'))
 mkdirp.sync(path.resolve(__dirname, '../docs/en/changelog'))
 mkdirp.sync(path.resolve(__dirname, '../docs/zh-CN/components'))
