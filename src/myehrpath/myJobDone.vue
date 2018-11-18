@@ -1,7 +1,7 @@
 <template>
   <div>
-    <divider>上拉加载</divider>
-    <scroller lock-x scrollbar-y use-pullup :pullup-config="pullupConfig2" height="300px" ref="demo2" @on-pullup-loading="load2">
+    <divider v-if="listData.length">上拉加载</divider>
+    <scroller v-if="listData.length" lock-x scrollbar-y use-pullup :pullup-config="pullupConfig2" height="300px" ref="demo2" @on-pullup-loading="load2">
       <div class="box2">
         <cell-box style="height:60px;font-size:14px;color:#666" v-if="listData" v-for="(item,index) in listData" :link="item.path" is-link :key="index">
              <flexbox>
@@ -25,8 +25,10 @@
                 </flexbox-item>
             </flexbox>
         </cell-box>
+        
       </div>
     </scroller>
+    <divider style="margin-top:30px;" v-if="!listData.length">暂无数据</divider>
   </div>
 </template>
 

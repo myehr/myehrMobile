@@ -1,7 +1,7 @@
 <template>
     <div class="swiper-container">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide" v-for="(item,index) in swipers" :key="index" style="margin-right:20px !important;">
+        <div class="swiper-wrapper" style="margin:10px 0;">
+            <div class="swiper-slide" v-for="(item,index) in swipers" :key="index" style="margin-right:15px;">
               <grid :show-lr-borders="false">
                 <grid-item :link='item.menuUrl'  :label="item.menuName" >
                   <img slot="icon" src="../assets/grid_icon.png">
@@ -81,4 +81,13 @@
  .swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{
    bottom: -4px;
  }
+ .swiper-slide:nth-of-type(even){
+   margin-top:10px !important;
+ }
+ .weui-grids:before{
+   border:none !important;
+ }
+.weui-grid:after{
+  border:none !important;
+}
 </style>
