@@ -108,10 +108,10 @@
         if(buttonId === 5055) {
           //保存
           var paramsMap = {		'c_71065' : this.formData.EMPEMPLOYEE_EMPID};
-          var _param = {};
+          var _param = {formId:this.formId,buttonId:buttonId,param:null,paramsMap:null};
           _param.formId = this.formId;
           _param.buttonId = buttonId;
-          _param = this.formData;
+          _param.param = this.formData;
           _param.paramsMap = paramsMap
           var hzsParam = [];
           var signstr = JSON.stringify(_param);
@@ -131,11 +131,10 @@
                 if(text[0]=='000000' || text[1]=='保存成功' || text[0]=='000000' || text[1]=='执行成功'){
                   alert("操作成功！");
                   refreshDictCache(this.formId,buttonId);
-                  closex();
+                 //closex();
                 }else if(text[0]=='error'){
                   if(text.length>1 &&text[0]=='error'){
                     alert(text[1]);
-                    closex();
                   }else{
                     alert("操作异常");
                   }
