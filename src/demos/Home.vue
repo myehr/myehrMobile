@@ -3,9 +3,9 @@
 
       <swiper loop auto :list="swiperList" :index="swiperListIndex" @onItemClick="gotoSwiperDetail" ></swiper>
     <!-- 添加多tab菜单模块 -->
-     <tab>
+    <!-- <tab>
       <tab-item @on-item-click="tabHandler(index)" v-for="(item,index) in datatable[0].childrens" :key="index" :selected="index == selindex">{{ item.menuName }}</tab-item>
-    </tab>
+    </tab>-->
     <div class="swaperBox">
       <text-swiper v-if="datatable" :swipers='datatable[0].childrens[selectedChild].childrens'></text-swiper>
     </div>
@@ -55,6 +55,8 @@
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
 
+
+
       <cell title="我的待办" link=""  v-on:click.native="gomyehrlist1" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
         <span class="weui-loading" v-show="showUnDoneLoading" />
@@ -78,6 +80,11 @@
 
     </group>
     <group title="用户" style="margin-top:20px;background:#fff;z-index:-2">
+
+      <cell title="bug测试" link=""  v-on:click.native="testbug" >
+        <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
+      </cell>
+
       <cell title="切换用户" link=""  v-on:click.native="gologin" >
         <span class="demo-icon" slot="icon" style="color:#F70968">&#xe633;</span>
       </cell>
@@ -222,6 +229,9 @@ activated(){
     onItemTableClick(index){
         console.log(index);
         this.currentIndex = index;
+    },
+    testbug(){
+      this.gotoMyehrPath('/myehrpath/form/EMPAUTONOMY/self_EMP/self_empBack/self_Family_list.vue',{empcode:'123456'},'bugTest');
     },
     gotomyehrcardCombine(){
       this.gotoMyehrPath('/myehrpath/combine/cardForm.vue',{empcode:'123456'},'组合表单');

@@ -9,9 +9,10 @@
       </div>
       <div class="vux-cell-primary vux-popup-picker-select-box">
         <div class="vux-popup-picker-select" :style="{textAlign: valueTextAlign}">
-          <span class="vux-popup-picker-value vux-cell-value" v-if="!displayFormat && !showName && value.length">{{value | array2string}}</span>
-          <span class="vux-popup-picker-value vux-cell-value" v-if="!displayFormat && showName && value.length">{{value | value2name(data)}}</span>
-          <span class="vux-popup-picker-value vux-cell-value" v-if="displayFormat && value.length">{{ displayFormat(value, value2name(value, data)) }}</span>
+        <span class="vux-popup-picker-value vux-cell-value" v-if="!displayFormat && !showName && value.length">{{value | array2string}}</span>
+
+          <span class="vux-popup-picker-value vux-cell-value" v-if="!displayFormat && showName && value.length">{{getNameValues(value,data)}}</span>
+         <span class="vux-popup-picker-value vux-cell-value" v-if="displayFormat && value.length">{{ displayFormat(value, value2name(value, data)) }}</span>
           <span v-if="!value.length && placeholder" v-text="placeholder" class="vux-popup-picker-placeholder vux-cell-placeholder"></span>
         </div>
       </div>
@@ -164,8 +165,13 @@ export default {
   },
   methods: {
     value2name,
+
     getNameValues () {
+      console.log(value2name(this.currentValue, this.data))
       return value2name(this.currentValue, this.data)
+    },
+    fvalue2name(data){
+      return value2name(data)
     },
     onClick () {
       if (!this.disabled) {

@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/myehr': {
-        target: 'http://192.168.0.115:8080/myehr',//设置你调用的接口域名和端口号 别忘了加http
+        target: 'http://127.0.0.1:28080/myehr',//设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
         timeout:10000,
         pathRewrite: {
@@ -22,7 +22,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: '127.0.0.1', // can be overwritten by process.env.HOST localhost
+    host: '192.168.2.3', // can be overwritten by process.env.HOST localhost
     port: 3000, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
